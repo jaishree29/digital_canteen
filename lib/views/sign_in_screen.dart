@@ -101,7 +101,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 80),
 
                 // Email TextField
-                TextFieldInput(
+                NTextFieldInput(
                   hintText: 'Email',
                   icon: Icons.email,
                   isPass: false,
@@ -109,7 +109,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
 
                 // Password TextField
-                TextFieldInput(
+                NTextFieldInput(
                   hintText: 'Password',
                   icon: Icons.lock,
                   isPass: true,

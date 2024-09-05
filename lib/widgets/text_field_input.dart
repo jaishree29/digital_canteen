@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextFieldInput extends StatelessWidget {
-  const TextFieldInput({
+class NTextFieldInput extends StatelessWidget {
+  const NTextFieldInput({
     super.key,
     required this.hintText,
     required this.icon,
