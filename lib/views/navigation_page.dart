@@ -28,7 +28,7 @@ class _NavigationPageState extends State<NavigationPage> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
-          color: NColors.primary, // Background color of the navigation bar
+          color: Colors.white, // Background color of the navigation bar
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1), // Shadow color
@@ -39,31 +39,31 @@ class _NavigationPageState extends State<NavigationPage> {
         ),
         child: ClipRRect(
           child: BottomNavigationBar(
-            backgroundColor: NColors.primary, 
+            backgroundColor: Colors.white, 
             currentIndex: myCurrentIndex,
             onTap: (index) {
               setState(() {
                 myCurrentIndex = index;
               });
             },
-            selectedItemColor: Colors.white, // Color when an item is selected
-            unselectedItemColor: NColors.lightOne,            
+            selectedItemColor: NColors.primary, // Color when an item is selected
+            unselectedItemColor: NColors.secondary,            
             type: BottomNavigationBarType.fixed,
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
+                icon: Icon(Icons.dining_outlined),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.dining_outlined),
-                label: 'Menu',
+                icon: Icon(Icons.payment),
+                label: 'Orders',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.star_border_outlined),
-                label: 'Favorites',
+                icon: Icon(Icons.emoji_emotions_outlined),
+                label: 'Vibe',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
+                icon: Icon(Icons.person),
                 label: 'Profile',
               ),
             ],
