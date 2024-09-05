@@ -2,27 +2,48 @@ import 'dart:async';
 
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/get_started.dart';
+import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
+  static const String KEYLOGIN = 'Login';
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), _navigateToGetStarted);
+    whereToGo();
   }
 
-  void _navigateToGetStarted() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const GetStartedScreen()),
-    );
+  void whereToGo() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    var isLoggedIn = sharedPref.getBool(KEYLOGIN);
+    Timer(const Duration(seconds: 3), () {
+      if(isLoggedIn!= null){
+        if(isLoggedIn){
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationPage())
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+          );
+        }
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const GetStartedScreen()),
+        );
+      }
+    });
   }
 
   @override

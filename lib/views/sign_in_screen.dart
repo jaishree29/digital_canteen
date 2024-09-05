@@ -2,9 +2,11 @@ import 'package:digital_canteen/controllers/auth_controller.dart';
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:digital_canteen/views/sign_up_screen.dart';
+import 'package:digital_canteen/views/splash_screen.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:digital_canteen/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -24,8 +26,11 @@ class _SignInScreenState extends State<SignInScreen> {
     final password = _passwordController.text.trim();
     final user = await _authController.signInWithEmailPassword(email, password);
 
+    var sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
+
     if (!mounted) return;
-    
+
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please fill in all fields.")),
@@ -45,16 +50,18 @@ class _SignInScreenState extends State<SignInScreen> {
           MaterialPageRoute(builder: (context) => const NavigationPage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("User does not exist. Please sign up first.")),
+        const SnackBar(content: Text("User does not exist. Please sign up first.")),
       );
     }
   }
 
   // Sign-In with Google
   void _handleGoogleSignIn() async {
-    await _authController.signOutFromGoogle();
+    // await _authController.signOutFromGoogle();
     final user = await _authController.signInWithGoogle();
+
+    var sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
 
     if (!mounted) {
       return;
@@ -64,12 +71,10 @@ class _SignInScreenState extends State<SignInScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Welcome back, ${user.email}!")),
       );
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const NavigationPage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const NavigationPage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("User does not exist. Please sign up first.")),
+        const SnackBar(content: Text("User does not exist. Please sign up first.")),
       );
     }
   }
@@ -142,7 +147,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 TextButton(
                   onPressed: () => {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const SignUpScreen(),

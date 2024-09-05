@@ -15,7 +15,7 @@ class GetStartedScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const SignInScreen()),
                 );
@@ -41,7 +41,7 @@ class GetStartedScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(300, 60),
