@@ -60,9 +60,10 @@ class _ProfilePageState extends State<ProfilePage> {
           'Phone Number': phone,
         }, SetOptions(merge: true));
 
-        
         _nameController.clear();
         _phoneController.clear();
+
+        if (!mounted) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Details updated successfully!')));
@@ -80,18 +81,31 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            NTextFieldInput(
-                hintText: 'Name',
-                icon: Icons.person,
-                isPass: false,
-                textController: _nameController),
-            NTextFieldInput(
-                hintText: 'Phone',
-                icon: Icons.phone,
-                isPass: false,
-                textController: _phoneController),
-            NElevatedButton(text: 'Update', onPressed: _saveDetails),
-            NElevatedButton(text: 'Logout', onPressed: _userLogOut),
+            Column(
+              children: [
+                NTextFieldInput(
+                  hintText: 'Name',
+                  icon: Icons.person,
+                  isPass: false,
+                  textController: _nameController
+                ),
+                NTextFieldInput(
+                  hintText: 'Phone',
+                  icon: Icons.phone,
+                  isPass: false,
+                  textController: _phoneController
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                NElevatedButton(text: 'Update', onPressed: _saveDetails),
+                const SizedBox(
+                  height: 25,
+                ),
+                NElevatedButton(text: 'Logout', onPressed: _userLogOut),
+              ],
+            ),
           ],
         ),
       ),
