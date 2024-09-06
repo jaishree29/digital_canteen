@@ -28,7 +28,11 @@ class NSearchBar extends StatelessWidget {
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 6.0),
             enabledBorder: InputBorder.none,
-            suffixIcon: SortMenu(icon: Icon(Icons.menu_rounded)),
+            suffixIcon: SortMenu(icon: Icon(
+              Icons.menu_rounded,
+              size: 30,
+              ),
+            ),
             prefixIcon: Icon(
               Icons.search_rounded,
               size: 30,

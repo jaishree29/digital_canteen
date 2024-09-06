@@ -12,4 +12,7 @@ class NImages {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5_PA3U7iab2y66aTU2gDckIwuQ7smLyVFgg&s',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSw76V3Sby03dPOvJACmCEXtrAwabNUmty_Xw&s',
   ];
+
+  //Menu Images
+  static const String menuImageOne = 'https://static.toiimg.com/photo/52532656.cms';
 }

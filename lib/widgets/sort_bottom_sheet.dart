@@ -1,3 +1,4 @@
+import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class SortMenu extends StatelessWidget {
@@ -7,6 +8,13 @@ class SortMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        overlayColor: NColors.primary,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: NColors.darkGrey,
+      ),
         onPressed: () {
           showModalBottomSheet(
             context: context,
