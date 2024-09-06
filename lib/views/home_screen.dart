@@ -1,6 +1,7 @@
-import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:digital_canteen/widgets/image_carousel.dart';
 import 'package:digital_canteen/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:digital_canteen/utils/constants/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,9 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(25.0),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 15,
-                ),
+                const SizedBox(height: 15),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -38,14 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
+                const SizedBox(height: 25),
                 NSearchBar(),
+                const SizedBox(height: 30),
+                const ImageCarousel(), // The carousel widget
               ],
             ),
           ),
-        )),
+        ),
+      ),
     );
   }
 }

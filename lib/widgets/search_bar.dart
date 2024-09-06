@@ -24,8 +24,13 @@ class NSearchBar extends StatelessWidget {
         child: TextField(
           controller: _searchController,
           decoration: const InputDecoration(
+            border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 6.0),
             enabledBorder: InputBorder.none,
+            suffixIcon: Icon(
+              Icons.menu_rounded,
+              size: 30,
+            ),
             prefixIcon: Icon(
               Icons.search_rounded,
               size: 30,
