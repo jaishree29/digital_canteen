@@ -88,9 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SingleChildScrollView(
+                SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(
+                  child: selectedIndex == 0 ? const Row(
                     children: [
                       NCards(
                         title: 'Honey Chilli Potato',
@@ -109,15 +109,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
                       ),
                     ],
+                  ) : const Row(
+                    children: [
+                      NCards(
+                      title: 'French Fries',
+                      description:
+                          'Half Plate - \$1.99 | Full Plate - \$2.5',
+                      ),
+                      NCards(
+                      title: 'French Fries',
+                      description:'Half Plate - \$1.99 | Full Plate - \$2.5',
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   'Recently Added',
                   style: TextStyle(
                     fontSize: 25,
                   ),
                 ),
+                const SizedBox(height: 10),
+                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
+                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
+                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
+                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
+                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
               ],
             ),
           ),
