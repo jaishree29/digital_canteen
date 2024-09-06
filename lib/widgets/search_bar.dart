@@ -1,4 +1,5 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:digital_canteen/widgets/sort_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 class NSearchBar extends StatelessWidget {
@@ -23,14 +24,11 @@ class NSearchBar extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: TextField(
           controller: _searchController,
-          decoration: const InputDecoration(
+          decoration:  const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(vertical: 6.0),
             enabledBorder: InputBorder.none,
-            suffixIcon: Icon(
-              Icons.menu_rounded,
-              size: 30,
-            ),
+            suffixIcon: SortMenu(icon: Icon(Icons.menu_rounded)),
             prefixIcon: Icon(
               Icons.search_rounded,
               size: 30,
@@ -42,7 +40,6 @@ class NSearchBar extends StatelessWidget {
             )
           ),
           cursorColor: NColors.primary,
-          
         ),
       ),
     );
