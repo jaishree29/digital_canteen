@@ -4,6 +4,7 @@ import 'package:digital_canteen/widgets/search_bar.dart';
 import 'package:digital_canteen/widgets/text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,31 +31,51 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
+        backgroundColor: Colors.white,
+        surfaceTintColor: NColors.secondary,
+        scrolledUnderElevation: 5,
+        shadowColor: NColors.lightGrey,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: NColors.primary
+        ),
+        toolbarHeight: 170,
+        flexibleSpace: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Home',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  CircleAvatar(
+                    backgroundColor: NColors.primary,
+                    radius: 25,
+                  ),
+                ],
+                ),
+                const SizedBox(height: 20),
+                NSearchBar(),
+              ],
+            ),
+          ),
+        )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Home',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    CircleAvatar(
-                      backgroundColor: NColors.primary,
-                      radius: 25,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                NSearchBar(),
-                const SizedBox(height: 20),
                 const ImageCarousel(),
                 const SizedBox(height: 20),
                 Padding(
@@ -90,38 +111,45 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 20),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: selectedIndex == 0 ? const Row(
-                    children: [
-                      NCards(
-                        title: 'Honey Chilli Potato',
-                        description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                      NCards(
-                        title: 'Honey Chilli Potato',
-                        description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                      NCards(
-                        title: 'Honey Chilli Potato',
-                        description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                      NCards(
-                        title: 'Honey Chilli Potato',
-                        description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                    ],
-                  ) : const Row(
-                    children: [
-                      NCards(
-                      title: 'French Fries',
-                      description:
-                          'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                      NCards(
-                      title: 'French Fries',
-                      description:'Half Plate - \$1.99 | Full Plate - \$2.5',
-                      ),
-                    ],
-                  ),
+                  child: selectedIndex == 0
+                      ? const Row(
+                          children: [
+                            NCards(
+                              title: 'Honey Chilli Potato',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                            NCards(
+                              title: 'Honey Chilli Potato',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                            NCards(
+                              title: 'Honey Chilli Potato',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                            NCards(
+                              title: 'Honey Chilli Potato',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                          ],
+                        )
+                      : const Row(
+                          children: [
+                            NCards(
+                              title: 'French Fries',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                            NCards(
+                              title: 'French Fries',
+                              description:
+                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            ),
+                          ],
+                        ),
                 ),
                 const SizedBox(height: 10),
                 const Text(
@@ -131,11 +159,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
-                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
-                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
-                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
-                const NCards(description: 'Half Plate - \$1.99 | Full Plate - \$2.5', title: 'Chowmin', isMenu: true, rating: '⭐ 4.3'),
+                const NCards(
+                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
+                    title: 'Chowmin',
+                    isMenu: true,
+                    rating: '⭐ 4.3'),
+                const NCards(
+                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
+                    title: 'Chowmin',
+                    isMenu: true,
+                    rating: '⭐ 4.3'),
+                const NCards(
+                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
+                    title: 'Chowmin',
+                    isMenu: true,
+                    rating: '⭐ 4.3'),
+                const NCards(
+                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
+                    title: 'Chowmin',
+                    isMenu: true,
+                    rating: '⭐ 4.3'),
+                const NCards(
+                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
+                    title: 'Chowmin',
+                    isMenu: true,
+                    rating: '⭐ 4.3'),
               ],
             ),
           ),

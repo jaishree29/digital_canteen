@@ -1,7 +1,7 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/favourite_screen.dart';
 import 'package:digital_canteen/views/home_screen.dart';
-import 'package:digital_canteen/views/menu_page.dart';
+import 'package:digital_canteen/views/orders_page.dart';
 import 'package:digital_canteen/views/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   final List<Widget> pages = [
     const HomeScreen(),
-    const MenuPage(),
+    const OrdersPage(),
     const FavouriteScreen(),
     const ProfilePage(),
   ];
@@ -28,10 +28,10 @@ class _NavigationPageState extends State<NavigationPage> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
-          color: Colors.white, // Background color of the navigation bar
+          color: Colors.white, 
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Shadow color
+              color: Colors.black.withOpacity(0.1),
               spreadRadius: 5,
               blurRadius: 10,
             ),
@@ -46,7 +46,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 myCurrentIndex = index;
               });
             },
-            selectedItemColor: NColors.primary, // Color when an item is selected
+            selectedItemColor: NColors.primary, 
             unselectedItemColor: NColors.secondary,            
             type: BottomNavigationBarType.fixed,
             items: const [
