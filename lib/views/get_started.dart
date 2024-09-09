@@ -1,6 +1,6 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/views/sign_in_screen.dart';
-import 'package:digital_canteen/views/sign_up_screen.dart';
+import 'package:digital_canteen/views/auth/sign_in_screen.dart';
+import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 class GetStartedScreen extends StatelessWidget {

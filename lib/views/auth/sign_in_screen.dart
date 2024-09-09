@@ -1,7 +1,7 @@
 import 'package:digital_canteen/controllers/auth_controller.dart';
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
-import 'package:digital_canteen/views/sign_up_screen.dart';
+import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:digital_canteen/views/splash_screen.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:digital_canteen/widgets/text_field_input.dart';

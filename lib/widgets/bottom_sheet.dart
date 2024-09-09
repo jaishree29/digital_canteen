@@ -1,23 +1,26 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class SortMenu extends StatelessWidget {
-  const SortMenu({super.key, required this.icon});
+class NBottomSheet extends StatelessWidget {
+  const NBottomSheet({super.key, required this.icon, required this.widget, required this.text});
   final Icon icon;
+  final Widget widget;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        overlayColor: NColors.primary,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: NColors.darkGrey,
-      ),
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          overlayColor: NColors.primary,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: NColors.darkGrey,
+        ),
         onPressed: () {
           showModalBottomSheet(
             context: context,
+            backgroundColor: Colors.white,
             builder: (BuildContext ctx) {
               return SizedBox(
                 height: 400,
@@ -28,15 +31,16 @@ class SortMenu extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Sort By', style: TextStyle(fontSize: 25)),
+                          Text(text, style: const TextStyle(fontSize: 25)),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.pop(ctx);
-                            }, 
+                            },
                             child: const Icon(Icons.close_rounded),
                           ),
                         ],
                       ),
+                      widget,
                     ],
                   ),
                 ),

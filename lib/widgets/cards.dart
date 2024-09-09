@@ -20,13 +20,13 @@ class NCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: isMenu == false ? const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0) : const EdgeInsets.only(bottom: 20),
+      padding: isMenu == false ? const EdgeInsets.only(right: 16.0, left: 2) : const EdgeInsets.only(bottom: 20),
       child: Container(
         height: 220,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           boxShadow: List.filled(
-            4,
+            10,
             const BoxShadow(
                 blurStyle: BlurStyle.outer,
                 blurRadius: BorderSide.strokeAlignOutside,

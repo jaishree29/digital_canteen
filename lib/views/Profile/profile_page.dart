@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/controllers/auth_controller.dart';
-import 'package:digital_canteen/views/sign_up_screen.dart';
+import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:digital_canteen/views/splash_screen.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:digital_canteen/widgets/text_field_input.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
-import 'package:digital_canteen/views/sign_up_screen.dart';
+import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

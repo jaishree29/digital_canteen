@@ -1,8 +1,8 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/views/favourite_screen.dart';
-import 'package:digital_canteen/views/home_screen.dart';
-import 'package:digital_canteen/views/orders_page.dart';
-import 'package:digital_canteen/views/profile_page.dart';
+import 'package:digital_canteen/views/Home/favourite_screen.dart';
+import 'package:digital_canteen/views/Home/home_screen.dart';
+import 'package:digital_canteen/views/Orders/orders_page.dart';
+import 'package:digital_canteen/views/Profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -18,9 +18,51 @@ class _NavigationPageState extends State<NavigationPage> {
   final List<Widget> pages = [
     const HomeScreen(),
     const OrdersPage(),
-    const FavouriteScreen(),
+    const FavouriteScreen(), 
     const ProfilePage(),
   ];
+
+  void _showModalBottomSheet(BuildContext context, int index) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true, 
+      backgroundColor: Colors.transparent, 
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 1.0,
+          maxChildSize: 1.0,
+          minChildSize: 1.0,
+          expand: true,
+          builder: (context, scrollController) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                controller: scrollController, 
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.8, 
+                  child: index == 1 ? const OrdersPage() : const FavouriteScreen(),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +70,7 @@ class _NavigationPageState extends State<NavigationPage> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
-          color: Colors.white, 
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -39,15 +81,19 @@ class _NavigationPageState extends State<NavigationPage> {
         ),
         child: ClipRRect(
           child: BottomNavigationBar(
-            backgroundColor: Colors.white, 
+            backgroundColor: Colors.white,
             currentIndex: myCurrentIndex,
             onTap: (index) {
-              setState(() {
-                myCurrentIndex = index;
-              });
+              if (index == 1 || index == 2) {
+                _showModalBottomSheet(context, index);
+              } else {
+                setState(() {
+                  myCurrentIndex = index; 
+                });
+              }
             },
-            selectedItemColor: NColors.primary, 
-            unselectedItemColor: NColors.secondary,            
+            selectedItemColor: NColors.primary,
+            unselectedItemColor: NColors.secondary,
             type: BottomNavigationBarType.fixed,
             items: const [
               BottomNavigationBarItem(
@@ -70,6 +116,7 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ),
       ),
+      // Regular pages for Home and Profile
       body: pages[myCurrentIndex],
     );
   }

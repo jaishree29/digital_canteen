@@ -1,10 +1,9 @@
+import 'package:digital_canteen/widgets/app_bar.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 import 'package:digital_canteen/widgets/image_carousel.dart';
 import 'package:digital_canteen/widgets/search_bar.dart';
 import 'package:digital_canteen/widgets/text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,71 +12,44 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
+  late TabController _tabController;
 
-  void _sort() {
-    setState(() {
-      selectedIndex = 0;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  void _favourites() {
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _selectTab(int index) {
     setState(() {
-      selectedIndex = 1;
+      _tabController.index = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-        ),
-        backgroundColor: Colors.white,
-        surfaceTintColor: NColors.secondary,
-        scrolledUnderElevation: 5,
-        shadowColor: NColors.lightGrey,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: NColors.primary
-        ),
-        toolbarHeight: 170,
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Home',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  CircleAvatar(
-                    backgroundColor: NColors.primary,
-                    radius: 25,
-                  ),
-                ],
-                ),
-                const SizedBox(height: 20),
-                NSearchBar(),
-              ],
-            ),
+      appBar: MyAppBar(
+          text: 'Home',
+          child: NSearchBar(),
           ),
-        )),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
                 const ImageCarousel(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Row(
@@ -85,9 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Expanded(
                         child: NTextButton(
-                          onTap: _sort,
+                          onTap: () => _selectTab(0),
                           text: 'Sort',
-                          selected: selectedIndex == 0,
+                          selected: _tabController.index == 0,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
                             bottomLeft: Radius.circular(10),
@@ -96,9 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Expanded(
                         child: NTextButton(
-                          onTap: _favourites,
+                          onTap: () => _selectTab(1),
                           text: 'Favourites ❤️',
-                          selected: selectedIndex == 1,
+                          selected: _tabController.index == 1,
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomRight: Radius.circular(10),
@@ -108,11 +80,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: selectedIndex == 0
-                      ? const Row(
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 250, // You can adjust the height as needed
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: const [
+                      // First tab content
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: [
                             NCards(
                               title: 'Honey Chilli Potato',
@@ -135,8 +112,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'Half Plate - \$1.99 | Full Plate - \$2.5',
                             ),
                           ],
-                        )
-                      : const Row(
+                        ),
+                      ),
+                      // Second tab content
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: [
                             NCards(
                               title: 'French Fries',
@@ -150,8 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 10),
                 const Text(
                   'Recently Added',
                   style: TextStyle(

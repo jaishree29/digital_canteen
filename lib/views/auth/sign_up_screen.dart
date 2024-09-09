@@ -1,10 +1,10 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
-import 'package:digital_canteen/views/sign_in_screen.dart';
+import 'package:digital_canteen/views/auth/sign_in_screen.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
-import '../../controllers/auth_controller.dart';
-import '../widgets/text_field_input.dart';
+import '../../../controllers/auth_controller.dart';
+import '../../widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
