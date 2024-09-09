@@ -25,19 +25,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Home',
-                    style: TextStyle(
-                      fontSize: 30,
+                    text,
+                    style: const TextStyle(
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundColor: NColors.primary,
-                    radius: 25,
+                    radius: 20,
                   ),
                 ],
               ),
