@@ -33,32 +33,36 @@ class NCards extends StatelessWidget {
                 color: NColors.lightGrey),
           ),
         ),
-        child: FillImageCard(
-          height: 220,
-          borderRadius: 15,
-          width: isMenu == false ? 220 : 350,
-          heightImage: 140,
-          imageProvider: const NetworkImage(NImages.menuImageOne),
-          // tags: [_tag('Category', () {}), _tag('Product', () {})],
-          title: Text(
-            title,
-            style: TextStyle(fontSize: isMenu == false ? 18 : 20, fontWeight: FontWeight.bold),
-          ),
-          description: isMenu == true ? Row(
-            children: [
-              Text(
-                rating,
-                style: TextStyle(fontSize: isMenu == false ? 12 : 15),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                description,
-                style: TextStyle(fontSize: isMenu == false ? 12 : 15),
-              ),
-            ],
-          ) : Text(
-            description,
-            style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15),
+          onTap: () {},
+          child: FillImageCard(
+            height: 220,
+            borderRadius: 15,
+            width: isMenu == false ? 220 : 350,
+            heightImage: 140,
+            imageProvider: const NetworkImage(NImages.menuImageOne),
+            // tags: [_tag('Category', () {}), _tag('Product', () {})],
+            title: Text(
+              title,
+              style: TextStyle(fontSize: isMenu == false ? 18 : 20, fontWeight: FontWeight.bold),
+            ),
+            description: isMenu == true ? Row(
+              children: [
+                Text(
+                  rating,
+                  style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  description,
+                  style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+                ),
+              ],
+            ) : Text(
+              description,
+              style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+            ),
           ),
         ),
       ),
