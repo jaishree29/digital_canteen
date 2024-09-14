@@ -1,3 +1,4 @@
+import 'package:digital_canteen/data/fetched_food_data.dart';
 import 'package:digital_canteen/widgets/app_bar.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 import 'package:digital_canteen/widgets/image_carousel.dart';
@@ -142,31 +143,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const NCards(
-                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    title: 'Chowmin',
-                    isMenu: true,
-                    rating: '⭐ 4.3'),
-                const NCards(
-                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    title: 'Chowmin',
-                    isMenu: true,
-                    rating: '⭐ 4.3'),
-                const NCards(
-                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    title: 'Chowmin',
-                    isMenu: true,
-                    rating: '⭐ 4.3'),
-                const NCards(
-                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    title: 'Chowmin',
-                    isMenu: true,
-                    rating: '⭐ 4.3'),
-                const NCards(
-                    description: 'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    title: 'Chowmin',
-                    isMenu: true,
-                    rating: '⭐ 4.3'),
+                const FetchFoodData()
               ],
             ),
           ),

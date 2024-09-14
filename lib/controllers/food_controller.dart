@@ -28,7 +28,7 @@ class FoodController {
   //Fetched food items
   Future<List<FoodModel>> fetchFoodItems() async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('foodItems').get();
+        await FirebaseFirestore.instance.collection('menu').get();
     return querySnapshot.docs.map((doc) => fromFirestore(doc)).toList();
   }
 }
