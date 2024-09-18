@@ -1,6 +1,6 @@
-import 'package:digital_canteen/data/fetched_food_data.dart';
+import 'package:digital_canteen/views/Home/popular.dart';
+import 'package:digital_canteen/views/Home/recently_added.dart';
 import 'package:digital_canteen/widgets/app_bar.dart';
-import 'package:digital_canteen/widgets/cards.dart';
 import 'package:digital_canteen/widgets/image_carousel.dart';
 import 'package:digital_canteen/widgets/search_bar.dart';
 import 'package:digital_canteen/widgets/text_button.dart';
@@ -88,48 +88,22 @@ class _HomeScreenState extends State<HomeScreen>
                     controller: _tabController,
                     children: const [
                       // First tab content
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            NCards(
-                              title: 'Honey Chilli Potato',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
-                            NCards(
-                              title: 'Honey Chilli Potato',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
-                            NCards(
-                              title: 'Honey Chilli Potato',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
-                            NCards(
-                              title: 'Honey Chilli Potato',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
-                          ],
-                        ),
-                      ),
+                      Popular(),
                       // Second tab content
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            NCards(
-                              title: 'French Fries',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
-                            NCards(
-                              title: 'French Fries',
-                              description:
-                                  'Half Plate - \$1.99 | Full Plate - \$2.5',
-                            ),
+                            // NCards(
+                            //   title: 'French Fries',
+                            //   description:
+                            //       'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            // ),
+                            // NCards(
+                            //   title: 'French Fries',
+                            //   description:
+                            //     'Half Plate - \$1.99 | Full Plate - \$2.5',
+                            // ),
                           ],
                         ),
                       ),
@@ -143,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const FetchFoodData()
+                const RecentlyAdded()
               ],
             ),
           ),

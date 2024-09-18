@@ -10,17 +10,23 @@ class NCards extends StatelessWidget {
     required this.description,
     this.isMenu = false,
     this.rating = '0',
+    required this.onTap, 
+    required this.foodId,
   });
 
   final String title;
   final String description;
   final bool? isMenu;
   final String rating;
+  final Function onTap;
+  final String foodId;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: isMenu == false ? const EdgeInsets.only(right: 16.0, left: 2) : const EdgeInsets.only(bottom: 20),
+      padding: isMenu == false
+          ? const EdgeInsets.only(right: 16.0, left: 2)
+          : const EdgeInsets.only(bottom: 20),
       child: Container(
         height: 220,
         decoration: BoxDecoration(
@@ -34,8 +40,7 @@ class NCards extends StatelessWidget {
           ),
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(15),
-          onTap: () {},
+          onTap: () => onTap,
           child: FillImageCard(
             height: 220,
             borderRadius: 15,
@@ -45,24 +50,28 @@ class NCards extends StatelessWidget {
             // tags: [_tag('Category', () {}), _tag('Product', () {})],
             title: Text(
               title,
-              style: TextStyle(fontSize: isMenu == false ? 18 : 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: isMenu == false ? 18 : 20,
+                  fontWeight: FontWeight.bold),
             ),
-            description: isMenu == true ? Row(
-              children: [
-                Text(
-                  rating,
-                  style: TextStyle(fontSize: isMenu == false ? 12 : 15),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  description,
-                  style: TextStyle(fontSize: isMenu == false ? 12 : 15),
-                ),
-              ],
-            ) : Text(
-              description,
-              style: TextStyle(fontSize: isMenu == false ? 12 : 15),
-            ),
+            description: isMenu == true
+                ? Row(
+                    children: [
+                      Text(
+                        rating,
+                        style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        description,
+                        style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+                      ),
+                    ],
+                  )
+                : Text(
+                    description,
+                    style: TextStyle(fontSize: isMenu == false ? 12 : 15),
+                  ),
           ),
         ),
       ),

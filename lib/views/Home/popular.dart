@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/views/Orders/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 
-class FetchFoodData extends StatefulWidget {
-  const FetchFoodData({super.key});
+class Popular extends StatefulWidget {
+  const Popular({super.key});
 
   @override
-  State<FetchFoodData> createState() => _FetchFoodDataState();
+  State<Popular> createState() => _PopularState();
 }
 
-class _FetchFoodDataState extends State<FetchFoodData> {
+class _PopularState extends State<Popular> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
@@ -27,6 +28,7 @@ class _FetchFoodDataState extends State<FetchFoodData> {
 
         List<NCards> foodCards = snapshot.data!.docs.map((doc) {
           var data = doc.data() as Map<String, dynamic>;
+          var foodId = doc.id; 
 
           var price = data['price'] as Map<String, dynamic>?;
 
@@ -40,21 +42,26 @@ class _FetchFoodDataState extends State<FetchFoodData> {
             } else if (fullPrice != null) {
               priceDescription = 'Price: ₹$fullPrice';
             } else {
-              priceDescription = '₹0.00'; 
+              priceDescription = '₹0.00';
             }
           }
 
           return NCards(
+            foodId: foodId,
             title: data['title'] ?? 'Unknown',
             description: priceDescription,
             rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',
-            isMenu: true,
+            isMenu: false,
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FoodPage(foodId: foodId,)),
+            ),
           );
         }).toList();
 
         return SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
+          scrollDirection: Axis.horizontal,
+          child: Row(
             children: foodCards,
           ),
         );

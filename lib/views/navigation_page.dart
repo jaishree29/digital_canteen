@@ -49,11 +49,11 @@ class _NavigationPageState extends State<NavigationPage> {
                   ),
                 ],
               ),
-              padding: const EdgeInsets.all(16.0),
+              // padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 controller: scrollController, 
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.8, 
+                  height: MediaQuery.of(context).size.height * 2, 
                   child: index == 1 ? const OrdersPage() : const FavouriteScreen(),
                 ),
               ),
