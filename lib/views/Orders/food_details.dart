@@ -20,7 +20,6 @@ class FoodDetails extends StatelessWidget {
 
     double rating = (data['rating'] as num?)?.toDouble() ?? 0.0;
     double? time = (data['time'] as num?)?.toDouble();
-    List<dynamic> quantityOptions = data['quantity'] ?? [];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -132,8 +131,15 @@ class FoodDetails extends StatelessWidget {
                   ),
 
                   // Quantity Selector
-                  QuantitySelector(
-                      quantityOptions: quantityOptions, price: fullPrice ?? 0),
+                   if (priceData != null)
+                    QuantitySelector(
+                      priceData: priceData,
+                    )
+                  else
+                    const Text(
+                      'Price data not available',
+                      style: TextStyle(color: Colors.red),
+                    ),
                 ],
               ),
             ),

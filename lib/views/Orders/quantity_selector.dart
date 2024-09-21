@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatefulWidget {
-  final List<dynamic> quantityOptions;
-  final double price;
+  final Map<String, dynamic>
+      priceData; // Map containing 'half' and 'full' as keys
 
-  const QuantitySelector(
-      {super.key, required this.quantityOptions, required this.price});
+  const QuantitySelector({
+    super.key,
+    required this.priceData,
+  });
 
   @override
   State<QuantitySelector> createState() => _QuantitySelectorState();
@@ -13,35 +15,58 @@ class QuantitySelector extends StatefulWidget {
 
 class _QuantitySelectorState extends State<QuantitySelector> {
   String? selectedPriceOption;
-  int selectedQuantity = 1;
+  int selectedQuantity = 0;
+  double selectedPrice = 0;
+
+  void _handleSelection(String? value) {
+    setState(() {
+      if (selectedPriceOption == value) {
+        // Deselecting the already selected value
+        selectedPriceOption = null;
+        selectedPrice = 0;
+        selectedQuantity = 0;
+      } else {
+        selectedPriceOption = value;
+        selectedPrice = double.parse(value!);
+        selectedQuantity = 1;
+      }
+      // Notify parent or update the state for the total price (in bottom bar or other components)
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return widget.quantityOptions.isNotEmpty ? Column(
-      children: widget.quantityOptions.map<Widget>((option) {
-        double optionPrice = (option['price'] as num).toDouble();
-        return RadioListTile(
-          title: Text(
-              '${option['title']} - ₹${optionPrice.toStringAsFixed(2)}'),
-          value: optionPrice.toString(),
-          groupValue: selectedPriceOption,
-          onChanged: (value) {
-            setState(() {
-              selectedPriceOption = value.toString();
-            });
-          },
-        );
-      },).toList(),
-    )
-  : RadioListTile(
-      title: Text('Full - ₹${widget.price.toStringAsFixed(2)}'),
-      value: widget.price.toString(),
-      groupValue: selectedPriceOption,
-      onChanged: (value) {
-        setState(() {
-          selectedPriceOption = value.toString();
-        });
-      },
+    bool hasHalf = widget.priceData.containsKey('half');
+    bool hasFull = widget.priceData.containsKey('full');
+
+    return Column(
+      children: [
+        if (hasHalf)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Expanded(child: Text('Half')),
+              Radio<String>(
+                value: widget.priceData['half'].toString(),
+                groupValue: selectedPriceOption,
+                onChanged: _handleSelection,
+              ),
+            ],
+          ),
+
+        if (hasFull)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Expanded(child: Text('Full')),
+              Radio<String>(
+                value: widget.priceData['full'].toString(),
+                groupValue: selectedPriceOption,
+                onChanged: _handleSelection,
+              ),
+            ],
+          ),
+      ],
     );
   }
 }
