@@ -34,7 +34,7 @@ class _FoodPageState extends State<FoodPage> {
               right: 0,
               child: Image.network(
                 NImages.menuImageOne,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: MediaQuery.of(context).size.height * 0.4,
                 width: MediaQuery.of(context).size.width,
                 fit: BoxFit.cover,
               ),
@@ -42,7 +42,7 @@ class _FoodPageState extends State<FoodPage> {
 
             // Food details
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.25,
+              top: MediaQuery.of(context).size.height * 0.30,
               left: 0,
               right: 0,
               child: Container(

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/Orders/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 
@@ -52,12 +51,6 @@ class _RecentlyAddedState extends State<RecentlyAdded> {
             description: priceDescription,
             rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',
             isMenu: true,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FoodPage(foodId: foodId),
-              ),
-            ),
           );
         }).toList();
 

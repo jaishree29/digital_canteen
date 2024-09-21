@@ -8,7 +8,7 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int selectedQuantity = 1;
+  int selectedQuantity = 0;
   double totalPrice = 0;
 
   @override
@@ -24,7 +24,7 @@ class _BottomBarState extends State<BottomBar> {
               IconButton(
                 icon: const Icon(Icons.remove_circle_outline),
                 onPressed: () {
-                  if (selectedQuantity > 1) {
+                  if (selectedQuantity > 0) {
                     setState(() {
                       selectedQuantity--;
                     });
@@ -55,7 +55,7 @@ class _BottomBarState extends State<BottomBar> {
               ),
               const SizedBox(width: 10),
               Text(
-                '\$${(selectedQuantity * totalPrice).toStringAsFixed(2)}',
+                '₹${(selectedQuantity * totalPrice).toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

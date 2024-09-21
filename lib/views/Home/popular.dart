@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/Orders/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 
@@ -52,10 +51,6 @@ class _PopularState extends State<Popular> {
             description: priceDescription,
             rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',
             isMenu: false,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FoodPage(foodId: foodId,)),
-            ),
           );
         }).toList();
 
