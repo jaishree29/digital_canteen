@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatefulWidget {
   final Map<String, dynamic> priceData;
+  final Function(double selectedPrice, int selectedQuantity) onSelectionChanged;
 
   const QuantitySelector({
     super.key,
     required this.priceData,
+    required this.onSelectionChanged,
   });
 
   @override
@@ -20,7 +22,6 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   void _handleSelection(String? value) {
     setState(() {
       if (selectedPriceOption == value) {
-        // Deselecting the already selected value
         selectedPriceOption = null;
         selectedPrice = 0;
         selectedQuantity = 0;
@@ -29,7 +30,7 @@ class _QuantitySelectorState extends State<QuantitySelector> {
         selectedPrice = double.parse(value!);
         selectedQuantity = 1;
       }
-      // Notify parent or update the state for the total price (in bottom bar or other components)
+      widget.onSelectionChanged(selectedPrice, selectedQuantity);
     });
   }
 
@@ -56,7 +57,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child: Text('Half - ₹${halfPrice?.toStringAsFixed(2)}')),
+                        child:
+                            Text('Half - ₹${halfPrice?.toStringAsFixed(2)}')),
                     Radio<String>(
                       value: widget.priceData['half'].toString(),
                       groupValue: selectedPriceOption,
@@ -72,7 +74,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                    child: Text('Full - ₹${fullPrice?.toStringAsFixed(2)}')),
+                  child: Text('Full - ₹${fullPrice?.toStringAsFixed(2)}'),
+                ),
                 Radio<String>(
                   value: widget.priceData['full'].toString(),
                   groupValue: selectedPriceOption,

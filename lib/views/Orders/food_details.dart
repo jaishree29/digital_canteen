@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class FoodDetails extends StatelessWidget {
   final Map<String, dynamic> data;
-  const FoodDetails({super.key, required this.data});
+  final Function(double selectedPrice, int selectedQuantity) onPriceUpdated;
+  const FoodDetails(
+      {super.key, required this.data, required this.onPriceUpdated});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +106,7 @@ class FoodDetails extends StatelessWidget {
           const SizedBox(height: 16),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: Colors.grey.shade100),
                 boxShadow: [
@@ -129,9 +131,11 @@ class FoodDetails extends StatelessWidget {
                     'Select the Quantity',
                     style: TextStyle(fontSize: 15, color: Colors.black54),
                   ),
-                  const SizedBox(height: 15,),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   // Quantity Selector
-                   if (priceData != null)
+                  if (priceData != null)
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
@@ -140,6 +144,7 @@ class FoodDetails extends StatelessWidget {
                       ),
                       child: QuantitySelector(
                         priceData: priceData,
+                        onSelectionChanged: onPriceUpdated,
                       ),
                     )
                   else

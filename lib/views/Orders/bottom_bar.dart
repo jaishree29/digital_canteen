@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({super.key});
+  final VoidCallback onAddToCart;
+  final double totalPrice;
+  
+  const BottomBar({super.key, required this.onAddToCart, required this.totalPrice});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -9,10 +12,11 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int selectedQuantity = 0;
-  double totalPrice = 0;
 
   @override
   Widget build(BuildContext context) {
+    double totalAmount = widget.totalPrice * selectedQuantity;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       color: Colors.white,
@@ -55,12 +59,12 @@ class _BottomBarState extends State<BottomBar> {
           Row(
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: widget.onAddToCart,
                 child: const Text('Add Item'),
               ),
               const SizedBox(width: 10),
               Text(
-                '₹${(selectedQuantity * totalPrice).toStringAsFixed(2)}',
+                '₹${totalAmount.toStringAsFixed(2)}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

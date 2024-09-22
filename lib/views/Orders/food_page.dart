@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/views/cart/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/views/Orders/food_details.dart';
 import 'package:digital_canteen/views/Orders/bottom_bar.dart';
@@ -19,12 +20,37 @@ class FoodPage extends StatefulWidget {
 
 class _FoodPageState extends State<FoodPage> {
   late Future<DocumentSnapshot> _foodData;
+  double selectedPrice = 0;
+  int selectedQuantity = 0;
 
   @override
   void initState() {
     super.initState();
     _foodData =
         FirebaseFirestore.instance.collection('menu').doc(widget.foodId).get();
+  }
+
+   void _updateTotalPrice(double price, int quantity) {
+    setState(() {
+      selectedPrice = price;
+      selectedQuantity = quantity;
+    });
+  }
+
+  void _addToCart() {
+    if (selectedQuantity > 0 && selectedPrice > 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CartPage(
+            foodId: widget.foodId,
+            selectedItem: selectedPrice,
+            selectedQuantity: selectedQuantity,
+            totalPrice: selectedQuantity * selectedPrice,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -97,7 +123,8 @@ class _FoodPageState extends State<FoodPage> {
 
                     return SingleChildScrollView(
                       controller: widget.scrollController,
-                      child: FoodDetails(data: data),
+                      child: FoodDetails(data: data, onPriceUpdated: _updateTotalPrice,
+                      ),
                     );
                   },
                 ),
@@ -106,7 +133,10 @@ class _FoodPageState extends State<FoodPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomBar(),
+      bottomNavigationBar: BottomBar(
+        totalPrice: selectedPrice * selectedQuantity,
+        onAddToCart: _addToCart, 
+      ),
     );
   }
 }
