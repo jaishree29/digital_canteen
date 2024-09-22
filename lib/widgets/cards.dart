@@ -34,7 +34,7 @@ class NCards extends StatelessWidget {
             minChildSize: 1.0,
             expand: true,
             builder: (context, scrollController) {
-              return FoodPage(foodId: foodId);
+              return FoodPage(foodId: foodId,scrollController: scrollController);
             },
           );
         },

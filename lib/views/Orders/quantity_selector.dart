@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatefulWidget {
-  final Map<String, dynamic>
-      priceData; // Map containing 'half' and 'full' as keys
+  final Map<String, dynamic> priceData;
 
   const QuantitySelector({
     super.key,
@@ -39,34 +38,50 @@ class _QuantitySelectorState extends State<QuantitySelector> {
     bool hasHalf = widget.priceData.containsKey('half');
     bool hasFull = widget.priceData.containsKey('full');
 
-    return Column(
-      children: [
-        if (hasHalf)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Expanded(child: Text('Half')),
-              Radio<String>(
-                value: widget.priceData['half'].toString(),
-                groupValue: selectedPriceOption,
-                onChanged: _handleSelection,
-              ),
-            ],
-          ),
+    double? halfPrice = widget.priceData['half'] != null
+        ? (widget.priceData['half'] as num).toDouble()
+        : null;
+    double? fullPrice = widget.priceData['full'] != null
+        ? (widget.priceData['full'] as num).toDouble()
+        : null;
 
-        if (hasFull)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Expanded(child: Text('Full')),
-              Radio<String>(
-                value: widget.priceData['full'].toString(),
-                groupValue: selectedPriceOption,
-                onChanged: _handleSelection,
-              ),
-            ],
-          ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          if (hasHalf)
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: Text('Half - ₹${halfPrice?.toStringAsFixed(2)}')),
+                    Radio<String>(
+                      value: widget.priceData['half'].toString(),
+                      groupValue: selectedPriceOption,
+                      onChanged: _handleSelection,
+                    ),
+                  ],
+                ),
+                const Divider(),
+              ],
+            ),
+          if (hasFull)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                    child: Text('Full - ₹${fullPrice?.toStringAsFixed(2)}')),
+                Radio<String>(
+                  value: widget.priceData['full'].toString(),
+                  groupValue: selectedPriceOption,
+                  onChanged: _handleSelection,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }

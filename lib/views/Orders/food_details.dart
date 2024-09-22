@@ -129,11 +129,18 @@ class FoodDetails extends StatelessWidget {
                     'Select the Quantity',
                     style: TextStyle(fontSize: 15, color: Colors.black54),
                   ),
-
+                  const SizedBox(height: 15,),
                   // Quantity Selector
                    if (priceData != null)
-                    QuantitySelector(
-                      priceData: priceData,
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(color: Colors.black12),
+                      ),
+                      child: QuantitySelector(
+                        priceData: priceData,
+                      ),
                     )
                   else
                     const Text(
@@ -144,6 +151,7 @@ class FoodDetails extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );

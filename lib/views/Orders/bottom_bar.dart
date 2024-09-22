@@ -19,32 +19,37 @@ class _BottomBarState extends State<BottomBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove_circle_outline),
-                onPressed: () {
-                  if (selectedQuantity > 0) {
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: () {
+                    if (selectedQuantity > 0) {
+                      setState(() {
+                        selectedQuantity--;
+                      });
+                    }
+                  },
+                ),
+                Text(
+                  '$selectedQuantity',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline),
+                  onPressed: () {
                     setState(() {
-                      selectedQuantity--;
+                      selectedQuantity++;
                     });
-                  }
-                },
-              ),
-              Text(
-                '$selectedQuantity',
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                icon: const Icon(Icons.add_circle_outline),
-                onPressed: () {
-                  setState(() {
-                    selectedQuantity++;
-                  });
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
 
           Row(

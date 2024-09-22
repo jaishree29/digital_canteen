@@ -6,7 +6,12 @@ import 'package:digital_canteen/utils/constants/image_strings.dart';
 
 class FoodPage extends StatefulWidget {
   final String foodId;
-  const FoodPage({super.key, required this.foodId});
+  final ScrollController scrollController;
+  const FoodPage({
+    super.key,
+    required this.foodId,
+    required this.scrollController,
+  });
 
   @override
   State<FoodPage> createState() => _FoodPageState();
@@ -28,6 +33,7 @@ class _FoodPageState extends State<FoodPage> {
       body: SafeArea(
         child: Stack(
           children: [
+            // Top image
             Positioned(
               top: 0,
               left: 0,
@@ -40,14 +46,34 @@ class _FoodPageState extends State<FoodPage> {
               ),
             ),
 
+            // Back button
+            Positioned(
+              top: 50,
+              left: 15,
+              child: Opacity(
+                opacity: 0.7,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black54,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.arrow_back_ios_rounded),
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+
             // Food details
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.30,
+              top: MediaQuery.of(context).size.height * 0.3,
               left: 0,
               right: 0,
+              bottom: 0,
               child: Container(
                 padding: const EdgeInsets.all(20),
-                height: MediaQuery.of(context).size.height * 0.75,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -63,12 +89,16 @@ class _FoodPageState extends State<FoodPage> {
                     }
                     if (!snapshot.hasData || snapshot.data == null) {
                       return const Center(
-                          child: Text('No data found for this item.'));
+                        child: Text('No data found for this item.'),
+                      );
                     }
 
                     var data = snapshot.data!.data() as Map<String, dynamic>;
 
-                    return FoodDetails(data: data);
+                    return SingleChildScrollView(
+                      controller: widget.scrollController,
+                      child: FoodDetails(data: data),
+                    );
                   },
                 ),
               ),
@@ -76,7 +106,6 @@ class _FoodPageState extends State<FoodPage> {
           ],
         ),
       ),
-
       bottomNavigationBar: const BottomBar(),
     );
   }
