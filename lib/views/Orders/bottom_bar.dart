@@ -1,3 +1,4 @@
+import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -11,44 +12,46 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BottomBarState extends State<BottomBar> {
-  int selectedQuantity = 0;
+  int selectedItems = 0;
 
   @override
   Widget build(BuildContext context) {
-    double totalAmount = widget.totalPrice * selectedQuantity;
+    double totalAmount = widget.totalPrice * selectedItems;
     
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       color: Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: NColors.primary
+              ),
             ),
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.remove_circle_outline),
+                  icon: const Icon(Icons.remove, color: NColors.primary,),
                   onPressed: () {
-                    if (selectedQuantity > 0) {
+                    if (selectedItems > 0) {
                       setState(() {
-                        selectedQuantity--;
+                        selectedItems--;
                       });
                     }
                   },
                 ),
                 Text(
-                  '$selectedQuantity',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  '$selectedItems',
+                  style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add_circle_outline),
+                  icon: const Icon(Icons.add, color: NColors.primary),
                   onPressed: () {
                     setState(() {
-                      selectedQuantity++;
+                      selectedItems++;
                     });
                   },
                 ),
@@ -60,14 +63,22 @@ class _BottomBarState extends State<BottomBar> {
             children: [
               ElevatedButton(
                 onPressed: widget.onAddToCart,
-                child: const Text('Add Item'),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                '₹${totalAmount.toStringAsFixed(2)}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: NColors.primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric( vertical: 16),
+                  child: Row(
+                    children: [
+                      Text('₹${totalAmount.toStringAsFixed(2)} Add to Cart',),
+                      const SizedBox(width: 5,),
+                      const Icon(Icons.shopping_cart, size: 20,)
+                    ],
+                  ),
                 ),
               ),
             ],
