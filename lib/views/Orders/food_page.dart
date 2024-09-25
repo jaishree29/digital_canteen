@@ -22,6 +22,7 @@ class _FoodPageState extends State<FoodPage> {
   late Future<DocumentSnapshot> _foodData;
   double selectedPrice = 0;
   int selectedQuantity = 0;
+  final CartItems _cartItems = CartItems();
 
   @override
   void initState() {
@@ -37,18 +38,17 @@ class _FoodPageState extends State<FoodPage> {
     });
   }
 
-  void _addToCart(double totalAmount, int selectedItems) {
+  void _addToCart(double totalAmount, int selectedItems) async {
     if (selectedItems > 0 && selectedPrice > 0) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CartItems(
-            foodId: widget.foodId,
-            selectedPrice: selectedPrice,
-            selectedItems: selectedItems,
-            totalPrice: totalAmount,
-          ),
-        ),
+      final foodData = await _foodData;
+      final data = foodData.data() as Map<String, dynamic>;
+      final foodTitle = data['title'] ?? 'Unknown Item';
+
+      await _cartItems.addToCart(
+        widget.foodId,
+        foodTitle,
+        selectedPrice,
+        selectedItems,
       );
     }
   }
