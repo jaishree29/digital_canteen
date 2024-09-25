@@ -19,6 +19,7 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int selectedItems = 0;
+  bool isAddedToCart = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +72,9 @@ class _BottomBarState extends State<BottomBar> {
               ElevatedButton(
                 onPressed: () {
                   widget.onAddToCart(totalAmount, selectedItems);
+                  setState(() {
+                    isAddedToCart = true;
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: NColors.primary,
@@ -84,13 +88,13 @@ class _BottomBarState extends State<BottomBar> {
                   child: Row(
                     children: [
                       Text(
-                        '₹${totalAmount.toStringAsFixed(2)} Add to Cart',
+                        isAddedToCart ? 'Added' :'₹${totalAmount.toStringAsFixed(2)} Add to Cart',
                       ),
                       const SizedBox(
                         width: 5,
                       ),
-                      const Icon(
-                        Icons.shopping_cart,
+                      Icon(
+                        isAddedToCart ? Icons.check_circle : Icons.shopping_cart,
                         size: 20,
                       )
                     ],

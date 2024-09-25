@@ -34,8 +34,10 @@ class _CartPageState extends State<CartPage> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    if (!snapshot.hasData || snapshot.data == null) {
-                      return const Center(child: Text('No items in cart'));
+                    if (!snapshot.hasData ||
+                        snapshot.data == null ||
+                        snapshot.data!.docs.isEmpty) {
+                      return const Center(child: Text('No items added yet!', style: TextStyle(fontSize: 20)));
                     }
 
                     final cartItems = snapshot.data!.docs;
