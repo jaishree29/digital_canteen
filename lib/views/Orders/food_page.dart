@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/cart/cart_page.dart';
+import 'package:digital_canteen/views/cart/cart_items.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/views/Orders/food_details.dart';
 import 'package:digital_canteen/views/Orders/bottom_bar.dart';
@@ -30,23 +30,23 @@ class _FoodPageState extends State<FoodPage> {
         FirebaseFirestore.instance.collection('menu').doc(widget.foodId).get();
   }
 
-   void _updateTotalPrice(double price, int quantity) {
+  void _updateTotalPrice(double price, int quantity) {
     setState(() {
       selectedPrice = price;
       selectedQuantity = quantity;
     });
   }
 
-  void _addToCart() {
-    if (selectedQuantity > 0 && selectedPrice > 0) {
+  void _addToCart(double totalAmount, int selectedItems) {
+    if (selectedItems > 0 && selectedPrice > 0) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CartPage(
+          builder: (context) => CartItems(
             foodId: widget.foodId,
-            selectedItem: selectedPrice,
-            selectedQuantity: selectedQuantity,
-            totalPrice: selectedQuantity * selectedPrice,
+            selectedPrice: selectedPrice,
+            selectedItems: selectedItems,
+            totalPrice: totalAmount,
           ),
         ),
       );
@@ -123,7 +123,9 @@ class _FoodPageState extends State<FoodPage> {
 
                     return SingleChildScrollView(
                       controller: widget.scrollController,
-                      child: FoodDetails(data: data, onPriceUpdated: _updateTotalPrice,
+                      child: FoodDetails(
+                        data: data,
+                        onPriceUpdated: _updateTotalPrice,
                       ),
                     );
                   },
@@ -135,7 +137,9 @@ class _FoodPageState extends State<FoodPage> {
       ),
       bottomNavigationBar: BottomBar(
         totalPrice: selectedPrice * selectedQuantity,
-        onAddToCart: _addToCart, 
+        onAddToCart: (totalAmount, selectedItems) {
+          _addToCart(totalAmount, selectedItems);
+        },
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:digital_canteen/views/cart/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -35,10 +36,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const CircleAvatar(
-                    backgroundColor: NColors.primary,
-                    radius: 20,
-                  ),
+                  InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CartPage())),
+                    child: const Icon(Icons.shopping_cart_rounded))
                 ],
               ),
               const SizedBox(height: 20),

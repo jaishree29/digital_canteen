@@ -57,8 +57,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child:
-                            Text('Half - ₹${halfPrice?.toStringAsFixed(2)}')),
+                      child: Text('Half - ₹${halfPrice?.toStringAsFixed(2)}'),
+                    ),
                     Radio<String>(
                       value: widget.priceData['half'].toString(),
                       groupValue: selectedPriceOption,
