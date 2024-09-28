@@ -73,7 +73,7 @@ class _BottomBarState extends State<BottomBar> {
                 onPressed: () {
                   widget.onAddToCart(totalAmount, selectedItems);
                   setState(() {
-                    isAddedToCart = true;
+                    isAddedToCart = selectedItems!=0 ? true : false;
                   });
                 },
                 style: ElevatedButton.styleFrom(
