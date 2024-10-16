@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController {
@@ -8,20 +9,34 @@ class AuthController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Sign up with email and password
-  Future<UserModel?> signUpWithEmailPassword(
-      String email, String password) async {
+  Future<UserModel?> signUpWithEmailPassword(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return UserModel.fromFirebase(userCredential.user);
+      final user = userCredential.user;
+
+      if (user != null) {
+        final userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+        // Check if the user already exists in Firestore
+        if (!userDoc.exists) {
+          // If not, add user data (email and uid) to Firestore
+          await _firestore.collection('users').doc(user.uid).set({
+            'email': user.email,
+            'uid': user.uid,
+          });
+        }
+
+        return UserModel.fromFirebase(user);
+      }
     } catch (e) {
       print("Error: $e");
       return null;
     }
   }
+
 
   // Sign up with Google
   Future<UserModel?> signUpWithGoogle() async {
@@ -64,48 +79,75 @@ class AuthController {
     await GoogleSignIn().signOut();
   }
 
-  //Sign In with email and pass
-  Future<UserModel?> signInWithEmailPassword(
-      String email, String password) async {
+  // Sign In with email and password
+  Future<UserModel?> signInWithEmailPassword(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth.getRedirectResult();
-      return UserModel.fromFirebase(userCredential.user);
+      if (kIsWeb) {
+        // Use web-specific method for sign-in
+        UserCredential userCredential = await _auth.getRedirectResult();
+        return UserModel.fromFirebase(userCredential.user);
+      } else {
+        // Use mobile-compatible method for sign-in
+        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        return UserModel.fromFirebase(userCredential.user);
+      }
     } catch (e) {
       print("Error: $e");
       return null;
     }
   }
 
-  // Sign in with Google
   Future<UserModel?> signInWithGoogle() async {
-
     try {
-      final googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        return null; // The user canceled the sign-in
-      }
-      final googleAuth = await googleUser.authentication;
-      final cred = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
-      );
+      if (kIsWeb) {
+        // For Web: Google Sign-In uses a redirect method
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
-      final userCredential = await _auth.signInWithCredential(cred);
-      final user = userCredential.user;
+        final UserCredential userCredential = await _auth.signInWithPopup(googleProvider);
+        final user = userCredential.user;
 
-      if (user != null) {
-        final userDoc =
-            await _firestore.collection('users').doc(user.uid).get();
-
-        if (userDoc.exists) {
+        if (user != null) {
           return UserModel.fromFirebase(user);
-        } else {
-          return null; 
+        }
+      } else {
+        // For Mobile (iOS/Android)
+        final googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          return null; // The user canceled the sign-in
+        }
+
+        final googleAuth = await googleUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+          idToken: googleAuth.idToken,
+          accessToken: googleAuth.accessToken,
+        );
+
+        final userCredential = await _auth.signInWithCredential(credential);
+        final user = userCredential.user;
+
+        if (user != null) {
+          final userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+          if (userDoc.exists) {
+            return UserModel.fromFirebase(user);
+          } else {
+            // Add the user to the Firestore collection if not exists
+            await _firestore.collection('users').doc(user.uid).set({
+              'email': user.email,
+              'uid': user.uid,
+            });
+            return UserModel.fromFirebase(user);
+          }
         }
       }
     } catch (e) {
-      print(e.toString());
+      print("Google Sign-In Error: $e");
+      return null;
     }
     return null;
   }
+
 }

@@ -24,12 +24,6 @@ class _SignInScreenState extends State<SignInScreen> {
   void _handleSignIn() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
-    final user = await _authController.signInWithEmailPassword(email, password);
-
-    var sharedPref = await SharedPreferences.getInstance();
-    sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
-
-    if (!mounted) return;
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -38,22 +32,42 @@ class _SignInScreenState extends State<SignInScreen> {
       return;
     }
 
-    if (!mounted) {
-      return;
-    }
+    try {
+      // Sign in the user with email and password
+      final user = await _authController.signInWithEmailPassword(email, password);
 
-    if (user != null) {
+      if (!mounted) return;
+
+      // If sign-in is successful
+      if (user != null) {
+        // Store login state in SharedPreferences
+        var sharedPref = await SharedPreferences.getInstance();
+        sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Welcome back, ${user.email}!")),
+        );
+
+        // Navigate to the next page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const NavigationPage()),
+        );
+      } else {
+        // If the user is not found, prompt them to sign up
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("User does not exist. Please sign up first.")),
+        );
+      }
+    } catch (e) {
+      // Handle any errors during sign-in (like wrong credentials)
+      print("Sign-in error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Welcome back, ${user.email}!")),
-      );
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const NavigationPage()));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("User does not exist. Please sign up first.")),
+        SnackBar(content: Text("Failed to sign in: ${e.toString()}")),
       );
     }
   }
+
 
   // Sign-In with Google
   void _handleGoogleSignIn() async {

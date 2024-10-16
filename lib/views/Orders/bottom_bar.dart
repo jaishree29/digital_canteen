@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 class BottomBar extends StatefulWidget {
   final Function(double totalAmount, int selectedItems) onAddToCart;
   final double totalPrice;
-  // final String selectedQuantityType;
 
   const BottomBar({
     super.key,
     required this.onAddToCart,
     required this.totalPrice,
-    // required this.selectedQuantityType,
   });
 
   @override
@@ -31,6 +29,7 @@ class _BottomBarState extends State<BottomBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Quantity selector (decrease/increase)
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
@@ -67,17 +66,23 @@ class _BottomBarState extends State<BottomBar> {
               ],
             ),
           ),
+
+          // Add to Cart button
           Row(
             children: [
               ElevatedButton(
-                onPressed: () {
-                  widget.onAddToCart(totalAmount, selectedItems);
-                  setState(() {
-                    isAddedToCart = selectedItems!=0 ? true : false;
-                  });
+                onPressed: isAddedToCart
+                    ? null // Disable button if already added
+                    : () {
+                  if (selectedItems > 0) {
+                    widget.onAddToCart(totalAmount, selectedItems);
+                    setState(() {
+                      isAddedToCart = true; // Mark item as added
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: NColors.primary,
+                  backgroundColor: isAddedToCart ? Colors.grey : NColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -88,7 +93,7 @@ class _BottomBarState extends State<BottomBar> {
                   child: Row(
                     children: [
                       Text(
-                        isAddedToCart ? 'Added' :'₹${totalAmount.toStringAsFixed(2)} Add to Cart',
+                        isAddedToCart ? 'Added' : '₹${totalAmount.toStringAsFixed(2)} Add to Cart',
                       ),
                       const SizedBox(
                         width: 5,
@@ -96,7 +101,7 @@ class _BottomBarState extends State<BottomBar> {
                       Icon(
                         isAddedToCart ? Icons.check_circle : Icons.shopping_cart,
                         size: 20,
-                      )
+                      ),
                     ],
                   ),
                 ),
