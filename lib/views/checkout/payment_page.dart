@@ -1,0 +1,87 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/views/checkout/payment_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+class PaymentPage extends StatelessWidget {
+
+  final double totalPrice;
+  PaymentPage({
+    Key? key,
+    required this.totalPrice,
+  }) : super(key: key);
+
+  Future<List<QueryDocumentSnapshot>> getAllCartItems() async {
+    final user = FirebaseAuth.instance.currentUser; // Get the current user
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    try {
+      // Fetch the cart items for the current user
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('cart')
+          .orderBy('timestamp', descending: true)
+          .get();
+
+      return querySnapshot.docs; // Return the list of cart items
+    } catch (e) {
+      throw Exception('Error fetching cart items: $e');
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Payment'),
+      ),
+      body: Center(
+        child: const Text(
+          'Proceed with Payment',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () async {
+              try {
+                // Get all cart items
+                List<QueryDocumentSnapshot> cartItems = await getAllCartItems();
+
+                PaymentService paymentService = PaymentService(cartItems,totalPrice);
+                await paymentService.completePayment(cartItems,totalPrice);
+                // Show success message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Payment successful! Order placed.')),
+                );
+
+                // Wait for a short duration to display the SnackBar before navigating back
+                await Future.delayed(const Duration(seconds: 2));
+
+                // Navigate back to the previous page
+                Navigator.pop(context);
+              } catch (e) {
+                // Handle errors
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: $e')),
+                );
+              }
+            },
+            child: const Text(
+              'Pay',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+        ),
+      ),
+
+    );
+  }
+}
