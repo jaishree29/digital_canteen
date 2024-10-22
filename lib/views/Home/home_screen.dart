@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController _tabController;
+  bool _isMenuOpen = false;
 
   @override
   void initState() {
@@ -36,13 +37,21 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
+  void _toggleMenu() {
+    setState(() {
+      _isMenuOpen = !_isMenuOpen;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-          text: 'Home',
-          child: NSearchBar(),
-          ),
+        text: 'Home',
+        isMenuOpen: _isMenuOpen,
+        child: NSearchBar(onMenuPressed: _toggleMenu),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -83,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 250, 
+                  height: 250,
                   child: TabBarView(
                     controller: _tabController,
                     children: const [

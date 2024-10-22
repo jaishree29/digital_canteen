@@ -10,10 +10,10 @@ class CheckoutPage extends StatelessWidget {
   final double totalPrice; // Receive total price
 
    CheckoutPage({
-    Key? key,
+    super.key,
     required this.cartItems,
     required this.totalPrice,
-  }) : super(key: key);
+  });
 
   final Canteen canteen = Canteen(
     imageUrl: 'assets/images/canteen_img.png', // Update this path if needed
@@ -27,7 +27,7 @@ class CheckoutPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Review Your Order"),
+        title: const Text("Review Your Order"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -64,12 +64,12 @@ class CheckoutPage extends StatelessWidget {
                         // ),
                         title: Text(
                           '${data['foodTitle'] ?? 'Unknown Item'} x ${data['selectedItems']}', // Update title to include quantity
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         // subtitle: Text('₹${data['selectedPrice']} x ${data['selectedItems']}'), // Subtitle can be uncommented if needed
                         trailing: Text(
                           '₹${(data['selectedPrice'] * data['selectedItems']).toStringAsFixed(2)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -101,7 +101,7 @@ class CheckoutPage extends StatelessWidget {
                     ),
                     child:  Text(
                       'Checkout - Total: ₹${totalPrice.toStringAsFixed(2)}',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
                 ),

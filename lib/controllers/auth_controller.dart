@@ -35,6 +35,7 @@ class AuthController {
       print("Error: $e");
       return null;
     }
+    return null;
   }
 
 

@@ -5,7 +5,7 @@ import 'canteen_model.dart';
 class CanteenInfo extends StatelessWidget {
   final Canteen canteen;
 
-  const CanteenInfo({Key? key, required this.canteen}) : super(key: key);
+  const CanteenInfo({super.key, required this.canteen});
 
   @override
   Widget build(BuildContext context) {

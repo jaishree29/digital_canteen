@@ -19,7 +19,7 @@ class PhonePaymentService {
   // Mock function to simulate sending a payment request to an API with totalPrice and receiving a response
   Future<Map<String, dynamic>> sendPaymentToApi(double totalPrice) async {
     // Simulate API call to phone payment service
-    await Future.delayed(Duration(seconds: 2)); // Simulate delay
+    await Future.delayed(const Duration(seconds: 2)); // Simulate delay
 
     // Mock response from the payment service
     return {

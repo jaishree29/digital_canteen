@@ -27,7 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'My Orders', showBackButton: true),
+      appBar: const CustomAppBar(title: 'My Orders', showBackButton: true,), //custom AppBar used here
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: _firestore
@@ -136,7 +136,8 @@ class _OrdersPageState extends State<OrdersPage> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('\₹${totalPrice.toStringAsFixed(2)}'),
+                          Text('₹${totalPrice.toStringAsFixed(2)}'),
+                          // Conditionally show cancel icon based on orderStatus
                         ],
                       ),
                     ),
