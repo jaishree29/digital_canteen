@@ -1,10 +1,10 @@
-import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
+import 'recently_ordered_page.dart';
 import 'custom_appbar.dart';
-
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
@@ -27,7 +27,7 @@ class _OrdersPageState extends State<OrdersPage> {
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'My Orders', showBackButton: true,), //custom AppBar used here
+      appBar: CustomAppBar(title: 'My Orders', showBackButton: true),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot>(
           stream: _firestore
@@ -39,32 +39,32 @@ class _OrdersPageState extends State<OrdersPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-        
+
             if (snapshot.hasError) {
               return const Center(child: Text('Error fetching orders'));
             }
-        
+
             final orders = snapshot.data?.docs ?? [];
-        
+
             if (orders.isEmpty) {
               return const Center(child: Text('No orders found.'));
             }
-        
+
             return ListView.builder(
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index].data() as Map<String, dynamic>;
-                final orderId = orders[index].id; // Get the document ID
+                final orderId = orders[index].id;
                 final globalOrderId = order['globalOrderId'] ?? '';
                 final orderStatus = order['orderStatus'] ?? 'Unknown';
                 final foodTitle = order['foodTitle'] ?? 'Unknown';
                 final selectedItems = order['selectedItems'] ?? 0;
                 final totalPrice = order['totalPrice'] ?? 0.0;
-        
+
                 // Highlight order status based on its value
                 Color statusColor;
                 String statusText;
-        
+
                 switch (orderStatus) {
                   case 'Pending':
                     statusColor = Colors.orange;
@@ -94,10 +94,10 @@ class _OrdersPageState extends State<OrdersPage> {
                     statusColor = Colors.grey;
                     statusText = 'Unknown';
                 }
-        
+
                 return GestureDetector(
                   onTap: () {
-                    // Handle the tap action, like navigating to the order details page
+                    // Navigate to order details page
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -107,7 +107,6 @@ class _OrdersPageState extends State<OrdersPage> {
                         ),
                       ),
                     );
-                    print(orderId);
                   },
                   child: Card(
                     margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -138,7 +137,6 @@ class _OrdersPageState extends State<OrdersPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text('\₹${totalPrice.toStringAsFixed(2)}'),
-                          // Conditionally show cancel icon based on orderStatus
                         ],
                       ),
                     ),
@@ -149,8 +147,19 @@ class _OrdersPageState extends State<OrdersPage> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the Recently Ordered page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RecentlyOrderedPage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.access_time),
+      ),
+     // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Specify location
     );
   }
 }
-
-

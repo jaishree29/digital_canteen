@@ -5,6 +5,8 @@ import 'package:digital_canteen/views/Orders/orders_page.dart';
 import 'package:digital_canteen/views/Profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
+import 'Orders/recently_ordered_page.dart';
+
 class NavigationPage extends StatefulWidget {
   const NavigationPage({super.key});
 
@@ -18,8 +20,8 @@ class _NavigationPageState extends State<NavigationPage> {
   final List<Widget> pages = [
     const HomeScreen(),
     const OrdersPage(),
-    const FavouriteScreen(), 
-    const ProfilePage(),
+    const FavouriteScreen(),
+     const ProfilePage(),
   ];
 
   void _showModalBottomSheet(BuildContext context, int index) {
