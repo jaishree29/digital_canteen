@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
                 const ImageCarousel(),
                 const SizedBox(height: 25),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

@@ -2,10 +2,8 @@ import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/Home/favourite_screen.dart';
 import 'package:digital_canteen/views/Home/home_screen.dart';
 import 'package:digital_canteen/views/Orders/orders_page.dart';
-import 'package:digital_canteen/views/Profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
-import 'Orders/recently_ordered_page.dart';
 import 'Profile/my_profile_page.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -22,7 +20,7 @@ class _NavigationPageState extends State<NavigationPage> {
     const HomeScreen(),
     const OrdersPage(),
     const FavouriteScreen(),
-     const MyProfilePage(),
+    const MyProfilePage(),
   ];
 
   void _showModalBottomSheet(BuildContext context, int index) {
