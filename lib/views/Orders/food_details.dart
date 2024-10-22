@@ -1,17 +1,80 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/views/Orders/quantity_selector.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class FoodDetails extends StatelessWidget {
+class FoodDetails extends StatefulWidget {
   final Map<String, dynamic> data;
   final Function(double selectedPrice, int selectedQuantity) onPriceUpdated;
-  const FoodDetails(
-      {super.key, required this.data, required this.onPriceUpdated});
+
+  const FoodDetails({
+    super.key,
+    required this.data,
+    required this.onPriceUpdated,
+  });
+
+  @override
+  _FoodDetailsState createState() => _FoodDetailsState();
+}
+
+class _FoodDetailsState extends State<FoodDetails> {
+  bool isFavorite = false;
+
+  final user = FirebaseAuth.instance.currentUser;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfFavorite(); // Check if the food is already in the favorites
+  }
+
+  // Check if the food is already in the user's favorites collection
+  Future<void> _checkIfFavorite() async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('favorites')
+        .doc(widget.data['id'].toString())
+        .get();
+
+    setState(() {
+      isFavorite = doc.exists; // Set to true if the document exists
+    });
+  }
+
+  // Toggle the favorite status of the food item
+  Future<void> _toggleFavorite() async {
+    if (isFavorite) {
+      // Remove from favorites
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .collection('favorites')
+          .doc(widget.data['id'].toString())
+          .delete();
+    } else {
+      // Add to favorites
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .collection('favorites')
+          .doc(widget.data['id'].toString())
+          .set(widget.data); // Storing the entire food data
+    }
+
+    // Update the state to reflect the change in the UI
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String title = data['title'] ?? 'Unknown';
-    String description = data['description'] ?? 'No description';
-    Map<String, dynamic>? priceData = data['price'] as Map<String, dynamic>?;
+    String title = widget.data['title'] ?? 'Unknown';
+    String description = widget.data['description'] ?? 'No description';
+    Map<String, dynamic>? priceData = widget.data['price'] as Map<String, dynamic>?;
 
     double? halfPrice = priceData?['half'] != null
         ? (priceData!['half'] as num).toDouble()
@@ -20,8 +83,8 @@ class FoodDetails extends StatelessWidget {
         ? (priceData!['full'] as num).toDouble()
         : null;
 
-    double rating = (data['rating'] as num?)?.toDouble() ?? 0.0;
-    double? time = (data['time'] as num?)?.toDouble();
+    double rating = (widget.data['rating'] as num?)?.toDouble() ?? 0.0;
+    double? time = (widget.data['time'] as num?)?.toDouble();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -39,8 +102,11 @@ class FoodDetails extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.favorite_border),
-                onPressed: () {},
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: isFavorite ? Colors.red : Colors.grey,
+                ),
+                onPressed: _toggleFavorite,
               ),
             ],
           ),
@@ -76,6 +142,7 @@ class FoodDetails extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 8),
+
           // Rating and Time
           Row(
             children: [
@@ -97,6 +164,7 @@ class FoodDetails extends StatelessWidget {
           ),
 
           const SizedBox(height: 10),
+
           // Description
           Text(
             description,
@@ -104,6 +172,7 @@ class FoodDetails extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
+
           Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -126,7 +195,6 @@ class FoodDetails extends StatelessWidget {
                     'Place Order',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-
                   const Text(
                     'Select the Quantity',
                     style: TextStyle(fontSize: 15, color: Colors.black54),
@@ -139,12 +207,13 @@ class FoodDetails extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        borderRadius:
+                        const BorderRadius.all(Radius.circular(16)),
                         border: Border.all(color: Colors.black12),
                       ),
                       child: QuantitySelector(
                         priceData: priceData,
-                        onSelectionChanged: onPriceUpdated,
+                        onSelectionChanged: widget.onPriceUpdated,
                       ),
                     )
                   else

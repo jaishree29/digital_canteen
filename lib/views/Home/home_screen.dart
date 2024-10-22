@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen>
                       Expanded(
                         child: NTextButton(
                           onTap: () => _selectTab(0),
-                          text: 'Sort',
+                          text: 'Recently Ordered',
                           selected: _tabController.index == 0,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10),
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>
                       Expanded(
                         child: NTextButton(
                           onTap: () => _selectTab(1),
-                          text: 'Favourites ❤️',
+                          text: 'Popular ❤️',
                           selected: _tabController.index == 1,
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(10),
