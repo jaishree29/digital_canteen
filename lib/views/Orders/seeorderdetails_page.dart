@@ -6,10 +6,10 @@ class SeeOrderDetails extends StatelessWidget {
   final Map<String, dynamic> order;
 
   const SeeOrderDetails({
-    Key? key,
+    super.key,
     required this.globalOrderId,
     required this.order,
-  }) : super(key: key);
+  });
 
   // Function to show the cancel order confirmation dialog
   void _showCancelDialog(BuildContext context) {
@@ -70,7 +70,7 @@ class SeeOrderDetails extends StatelessWidget {
             const SizedBox(height: 10),
             Text('Food Title: ${order['foodTitle'] ?? 'Unknown'}'),
             Text('Items: ${order['selectedItems'] ?? 0}'),
-            Text('Total Price: \₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}'),
+            Text('Total Price: ₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}'),
             Text('Order Status: ${order['orderStatus'] ?? 'Unknown'}'),
             Text('Global Order ID: ${order['globalOrderId'] ?? 'N/A'}'),
             const SizedBox(height: 30),

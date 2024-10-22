@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class PaymentPage extends StatelessWidget {
 
   final double totalPrice;
-  PaymentPage({
-    Key? key,
+  const PaymentPage({
+    super.key,
     required this.totalPrice,
-  }) : super(key: key);
+  });
 
   Future<List<QueryDocumentSnapshot>> getAllCartItems() async {
     final user = FirebaseAuth.instance.currentUser; // Get the current user
@@ -39,8 +39,8 @@ class PaymentPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Payment'),
       ),
-      body: Center(
-        child: const Text(
+      body: const Center(
+        child: Text(
           'Proceed with Payment',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),

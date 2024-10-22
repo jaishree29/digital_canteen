@@ -5,9 +5,9 @@ class CancelOrder extends StatelessWidget {
   final String globalOrderId;
 
   const CancelOrder({
-    Key? key,
+    super.key,
     required this.globalOrderId,
-  }) : super(key: key);
+  });
 
   Future<void> _cancelOrder(BuildContext context) async {
     try {

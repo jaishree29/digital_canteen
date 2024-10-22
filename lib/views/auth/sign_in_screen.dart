@@ -43,7 +43,7 @@ class _SignInScreenState extends State<SignInScreen> {
         // Store login state in SharedPreferences
         var sharedPref = await SharedPreferences.getInstance();
         sharedPref.setBool(SplashScreenState.KEYLOGIN, true);
-
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Welcome back, ${user.email}!")),
         );
