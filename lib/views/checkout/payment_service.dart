@@ -67,9 +67,19 @@ class PaymentService {
         });
 
         print('Global order created successfully for item: ${cartItemData['foodTitle']}');
+        // After successfully placing the order, delete the item from the user's cart
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('cart') // Assuming the cart collection is under the user's document
+            .doc(cartItemData['cartItemId']) // Deleting the specific cart item by its document ID
+            .delete();
+
+        print('Cart item deleted successfully: ${cartItemData['foodTitle']}');
       }
 
       print('All orders created successfully for the user and global orders.');
+
 
     } catch (e) {
       throw Exception('Error during payment or order processing: $e');

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'cancellation_service.dart';
+
 class SeeOrderDetails extends StatelessWidget {
   final String globalOrderId;
   final Map<String, dynamic> order;
+  final String orderId;
 
-  const SeeOrderDetails({
+  // Create an instance of CancellationService
+  final CancellationService cancellationService = CancellationService();
+
+   SeeOrderDetails({
     super.key,
     required this.globalOrderId,
     required this.order,
+    required this.orderId
   });
 
   // Function to show the cancel order confirmation dialog
@@ -35,6 +42,7 @@ class SeeOrderDetails extends StatelessWidget {
                     .update({
                   'cancellationStatus': 'Cancelled',
                 });
+                cancellationService.cancelOrder(orderId);
 
                 // Close the dialog and show a confirmation message
                 Navigator.of(context).pop();
