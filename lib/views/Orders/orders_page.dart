@@ -89,7 +89,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   final order = orders[index].data() as Map<String, dynamic>;
-                  // final orderId = orders[index].id;
+                   final orderId = orders[index].id;
                   final globalOrderId = order['globalOrderId'] ?? '';
                   final orderStatus = order['orderStatus'] ?? 'Unknown';
                   final foodTitle = order['foodTitle'] ?? 'Unknown';
@@ -139,6 +139,7 @@ class _OrdersPageState extends State<OrdersPage> {
                           builder: (context) => SeeOrderDetails(
                             globalOrderId: globalOrderId,
                             order: order,
+                            orderId: orderId,
                           ),
                         ),
                       );

@@ -5,14 +5,24 @@ class CartItems {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> addToCart(String foodId, String foodTitle, double selectedPrice,
-      int selectedItems) async {
+  Future<void> addToCart(String foodId, String foodTitle, double selectedPrice, int selectedItems) async {
     final user = _auth.currentUser;
     if (user == null) {
       throw Exception('User not authenticated');
     }
 
-    await _firestore.collection('users').doc(user.uid).collection('cart').add({
+    // Generate a new document reference to get the unique ID for the cart item
+    DocumentReference docRef = _firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('cart')
+        .doc(); // Creates a document reference with a unique ID
+
+    String cartItemId = docRef.id; // Get the generated ID
+
+    // Use the ID to add it as a field in the cart item
+    await docRef.set({
+      'cartItemId': cartItemId, // Add the generated cart item ID as a field
       'foodId': foodId,
       'foodTitle': foodTitle,
       'selectedPrice': selectedPrice,
@@ -20,7 +30,10 @@ class CartItems {
       'totalPrice': selectedPrice * selectedItems,
       'timestamp': FieldValue.serverTimestamp(),
     });
+
+    print('Item added to cart with ID: $cartItemId');
   }
+
 
   Stream<QuerySnapshot> getCartItems() {
     final user = _auth.currentUser;
