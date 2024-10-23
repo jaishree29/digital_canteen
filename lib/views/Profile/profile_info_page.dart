@@ -4,10 +4,10 @@ class ProfileInfoPage extends StatefulWidget {
   final String initialValue; // Initial value for the text field
   final Function(String) onChange; // Callback for value change
 
-  ProfileInfoPage({required this.label, required this.initialValue, required this.onChange}); // Constructor
+  const ProfileInfoPage({super.key, required this.label, required this.initialValue, required this.onChange}); // Constructor
 
   @override
-  _ProfileInfoPageState createState() => _ProfileInfoPageState();
+  State<ProfileInfoPage> createState() => _ProfileInfoPageState();
 }
 
 class _ProfileInfoPageState extends State<ProfileInfoPage> {
@@ -37,11 +37,11 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
               labelText: widget.label,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
             ),
             readOnly: true,
@@ -64,20 +64,20 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Cancel'),
+                        child: const Text('Cancel'),
                       ),
                       TextButton(
                         onPressed: () {
                           widget.onChange(_controller.text); // Call the callback with the new value
                           Navigator.of(context).pop();
                         },
-                        child: Text('Change'),
+                        child: const Text('Change'),
                       ),
                     ],
                   ),
                 );
               },
-              child: Text(
+              child: const Text(
                 'CHANGE',
                 style: TextStyle(color: Colors.red),
               ),

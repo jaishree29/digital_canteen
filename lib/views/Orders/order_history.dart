@@ -58,7 +58,7 @@ class RecentlyOrderedPage extends StatelessWidget {
                 final order = recentlyDeliveredOrders[index];
                 return ListTile(
                   title: Text(order['foodTitle']),
-                  subtitle: Text('Price: \₹${order['totalPrice']}'),
+                  subtitle: Text('Price: ₹${order['totalPrice']}'),
                 );
               },
             );

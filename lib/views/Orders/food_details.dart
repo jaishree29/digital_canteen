@@ -14,7 +14,7 @@ class FoodDetails extends StatefulWidget {
   });
 
   @override
-  _FoodDetailsState createState() => _FoodDetailsState();
+  State<FoodDetails> createState() => _FoodDetailsState();
 }
 
 class _FoodDetailsState extends State<FoodDetails> {

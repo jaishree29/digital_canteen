@@ -1,8 +1,8 @@
 import 'package:digital_canteen/views/Profile/profile_card.dart';
+import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:flutter/material.dart';
 
 import 'edit_profile.dart';
-
 
 class MyProfilePage extends StatelessWidget {
   const MyProfilePage({super.key});
@@ -14,7 +14,7 @@ class MyProfilePage extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 195, // Height of the sticky header
+              expandedHeight: 185, // Height of the sticky header
               flexibleSpace: FlexibleSpaceBar(
                 background: Padding(
                   padding: const EdgeInsets.all(18.0),
@@ -23,12 +23,21 @@ class MyProfilePage extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20),
                       Row(
-                        children: const [
-                          Icon(Icons.arrow_back_ios_new_sharp, size: 20, color: Colors.grey),
-                          SizedBox(width: 2),
-                          Text(
-                            "Go Back",
-                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                        children: [
+                          const Icon(Icons.arrow_back_ios_new_sharp,
+                              size: 20, color: Colors.grey),
+                          const SizedBox(width: 10),
+                          InkWell(
+                            onTap: () => Navigator.pushReplacement(context,
+                              MaterialPageRoute(
+                                builder: (context) => const NavigationPage(),
+                              ),
+                            ),
+                            child: const Text(
+                              "Go Back",
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                            ),
                           ),
                         ],
                       ),
@@ -37,7 +46,8 @@ class MyProfilePage extends StatelessWidget {
                         padding: EdgeInsets.only(left: 4.0),
                         child: Text(
                           "Account Details",
-                          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 27, fontWeight: FontWeight.bold),
                         ),
                       ),
                       const Padding(
@@ -73,7 +83,8 @@ class MyProfilePage extends StatelessWidget {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => EditProfile()),
+                                MaterialPageRoute(
+                                    builder: (context) => EditProfile()),
                               );
                             },
                           ),
@@ -88,7 +99,8 @@ class MyProfilePage extends StatelessWidget {
                     ),
                   ),
                   const Padding(
-                    padding: EdgeInsets.only(left: 25.0, top: 10), // Added padding for alignment
+                    padding: EdgeInsets.only(
+                        left: 25.0, top: 10), // Added padding for alignment
                     child: Text("More", style: TextStyle(fontSize: 19)),
                   ),
                   const SizedBox(height: 10),

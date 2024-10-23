@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPage extends StatelessWidget {
-
   final double totalPrice;
   const PaymentPage({
     super.key,
@@ -32,7 +31,6 @@ class PaymentPage extends StatelessWidget {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +53,13 @@ class PaymentPage extends StatelessWidget {
                 // Get all cart items
                 List<QueryDocumentSnapshot> cartItems = await getAllCartItems();
 
-                PaymentService paymentService = PaymentService(cartItems,totalPrice);
-                await paymentService.completePayment(cartItems,totalPrice);
+                PaymentService paymentService =
+                    PaymentService(cartItems, totalPrice);
+                await paymentService.completePayment(cartItems, totalPrice);
                 // Show success message
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Payment successful! Order placed.')),
+                  const SnackBar(
+                      content: Text('Payment successful! Order placed.')),
                 );
 
                 // Wait for a short duration to display the SnackBar before navigating back
@@ -81,7 +81,6 @@ class PaymentPage extends StatelessWidget {
           ),
         ),
       ),
-
     );
   }
 }

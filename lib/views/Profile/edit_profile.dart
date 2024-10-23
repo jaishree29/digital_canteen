@@ -25,7 +25,7 @@ class EditProfile extends StatelessWidget {
     // Get the current user's UID, check if user is logged in
     if (user == null) {
       // If no user is logged in, show an error or redirect
-      return Scaffold(
+      return const Scaffold(
         body: Center(child: Text('No user is logged in. Please log in.')),
       );
     }
@@ -38,11 +38,11 @@ class EditProfile extends StatelessWidget {
           future: getUserData(userId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData) {
-              return Center(child: Text('No user data found.'));
+              return const Center(child: Text('No user data found.'));
             }
 
             var userData = snapshot.data!;
@@ -83,7 +83,7 @@ class EditProfile extends StatelessWidget {
                       ),
                     ),
                     // Positioned Image at the top center
-                    Positioned(
+                    const Positioned(
                       top: 120,
                       left: 0,
                       right: 0,
