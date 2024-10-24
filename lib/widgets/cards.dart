@@ -62,7 +62,7 @@ class NCards extends StatelessWidget {
           child: FillImageCard(
             height: 220,
             borderRadius: 15,
-            width: isMenu == false ? 220 : 350,
+            width: isMenu == false ? 220 : 355,
             heightImage: 140,
             imageProvider: const NetworkImage(NImages.menuImageOne),
             // tags: [_tag('Category', () {}), _tag('Product', () {})],

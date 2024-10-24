@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 
 class NSearchBar extends StatefulWidget {
   final VoidCallback onMenuPressed;
+  final ValueChanged<String> onSearchChanged;
 
-  const NSearchBar({super.key, required this.onMenuPressed});
+  const NSearchBar({
+    super.key,
+    required this.onMenuPressed,
+    required this.onSearchChanged,
+  });
 
   @override
   State<NSearchBar> createState() => _NSearchBarState();
 }
 
 class _NSearchBarState extends State<NSearchBar> {
-  final SearchController _searchController = SearchController();
+  final TextEditingController _searchController = TextEditingController();
   List<String> hintTexts = [
     'Chili Paneer',
     'Gravy Momos',
@@ -30,11 +35,17 @@ class _NSearchBarState extends State<NSearchBar> {
         currentIndex = (currentIndex + 1) % hintTexts.length;
       });
     });
+
+    // Listen to changes in the search field
+    _searchController.addListener(() {
+      widget.onSearchChanged(_searchController.text);
+    });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
+    _timer?.cancel(); 
+    _searchController.dispose();
     super.dispose();
   }
 
