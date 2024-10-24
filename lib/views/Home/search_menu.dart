@@ -1,5 +1,5 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/views/Home/favourite_screen.dart';
+import 'package:digital_canteen/views/Home/favourites/favourite_screen.dart';
 import 'package:digital_canteen/views/Home/new_dishes.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';

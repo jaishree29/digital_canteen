@@ -1,7 +1,7 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/views/Home/favourite_screen.dart';
 import 'package:digital_canteen/views/Home/home_screen.dart';
 import 'package:digital_canteen/views/Orders/orders_page.dart';
+import 'package:digital_canteen/views/Vibe/vibe.dart';
 import 'package:flutter/material.dart';
 
 import 'Profile/my_profile_page.dart';
@@ -19,7 +19,7 @@ class _NavigationPageState extends State<NavigationPage> {
   final List<Widget> pages = [
     const HomeScreen(),
     const OrdersPage(),
-    const FavouriteScreen(),
+    const Vibe(),
     const MyProfilePage(),
   ];
 
@@ -55,7 +55,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 controller: scrollController, 
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 2, 
-                  child: index == 1 ? const OrdersPage() : const FavouriteScreen(),
+                  child: index == 1 ? const OrdersPage() : const Vibe(),
                 ),
               ),
             );
