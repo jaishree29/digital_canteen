@@ -1,11 +1,41 @@
+import 'package:digital_canteen/controllers/auth_controller.dart';
 import 'package:digital_canteen/views/Profile/profile_card.dart';
+import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
+import 'package:digital_canteen/views/splash_screen.dart';
+import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'edit_profile.dart';
 
-class MyProfilePage extends StatelessWidget {
+class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
+
+  @override
+  State<MyProfilePage> createState() => _MyProfilePageState();
+}
+
+class _MyProfilePageState extends State<MyProfilePage> {
+  final AuthController _authController = AuthController();
+
+  //User Log out
+  void _userLogOut() async {
+    await _authController.signOutFromGoogle();
+
+    var sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setBool(SplashScreenState.KEYLOGIN, false);
+
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const SignUpScreen()),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Successfully logged out!')));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +58,8 @@ class MyProfilePage extends StatelessWidget {
                               size: 20, color: Colors.grey),
                           const SizedBox(width: 10),
                           InkWell(
-                            onTap: () => Navigator.pushReplacement(context,
+                            onTap: () => Navigator.pushReplacement(
+                              context,
                               MaterialPageRoute(
                                 builder: (context) => const NavigationPage(),
                               ),
@@ -61,9 +92,9 @@ class MyProfilePage extends StatelessWidget {
                   ),
                 ),
               ),
-              pinned: true, // Makes the header sticky
-              backgroundColor: Colors.white, // Background color of the header
-              elevation: 4, // Shadow for the header
+              pinned: false, 
+              backgroundColor: Colors.white,
+              elevation: 4, 
             ),
             SliverToBoxAdapter(
               child: Column(
@@ -100,12 +131,12 @@ class MyProfilePage extends StatelessWidget {
                   ),
                   const Padding(
                     padding: EdgeInsets.only(
-                        left: 25.0, top: 10), // Added padding for alignment
+                        left: 25.0, top: 10), 
                     child: Text("More", style: TextStyle(fontSize: 19)),
                   ),
                   const SizedBox(height: 10),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
                     child: Column(
                       children: [
                         ProfileCard(
@@ -138,11 +169,19 @@ class MyProfilePage extends StatelessWidget {
                           icon: Icons.book,
                           onTap: () {},
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Terms and Conditions",
-                            style: TextStyle(fontSize: 24, color: Colors.black),
+                        ProfileCard(
+                          onTap: () {},
+                          title: "Terms and Conditions",
+                          subtitle: "Click to view",
+                          icon: Icons.book,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Center(
+                          child: NElevatedButton(
+                            text: 'Logout',
+                            onPressed: _userLogOut,
                           ),
                         ),
                       ],
