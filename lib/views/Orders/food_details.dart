@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/views/Orders/quantity_selector.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../controllers/favorites_controller.dart';
 
 class FoodDetails extends StatefulWidget {
   final String foodId;
@@ -20,60 +24,59 @@ class FoodDetails extends StatefulWidget {
 }
 
 class _FoodDetailsState extends State<FoodDetails> {
-  bool isFavorite = false;
-
-  final user = FirebaseAuth.instance.currentUser;
+  final FavoritesController _favoritesController = Get.put(FavoritesController());
 
 
 
   @override
   void initState() {
     super.initState();
-    _checkIfFavorite(); // Check if the food is already in the favorites
+    // Check if the food item is already in the favorites
+    _favoritesController.checkIfFavorite(widget.foodId);
   }
 
-  // Check if the food is already in the user's favorites collection
-  Future<void> _checkIfFavorite() async {
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid)
-        .collection('favorites')
-        .doc(widget.data['id'].toString())
-        .get();
-
-    setState(() {
-      isFavorite = doc.exists; // Set to true if the document exists
-    });
-  }
-
-  // Toggle the favorite status of the food item
-  Future<void> _toggleFavorite() async {
-    if (isFavorite) {
-      // Remove from favorites
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user?.uid)
-          .collection('favorites')
-          .doc(widget.data['id'].toString())
-          .delete();
-    } else {
-      // Add to favorites
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user?.uid)
-          .collection('favorites')
-          .doc(widget.data['id'].toString())
-          .set({
-        ...widget.data,  // Storing the entire food data
-        'foodId': widget.foodId,  // Adding the foodId explicitly
-      });
-    }
-
-    // Update the state to reflect the change in the UI
-    setState(() {
-      isFavorite = !isFavorite;
-    });
-  }
+  // // Check if the food is already in the user's favorites collection
+  // Future<void> _checkIfFavorite() async {
+  //   DocumentSnapshot doc = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(user?.uid)
+  //       .collection('favorites')
+  //       .doc(widget.data['id'].toString())
+  //       .get();
+  //
+  //   setState(() {
+  //     isFavorite = doc.exists; // Set to true if the document exists
+  //   });
+  // }
+  //
+  // // Toggle the favorite status of the food item
+  // Future<void> _toggleFavorite() async {
+  //   if (isFavorite) {
+  //     // Remove from favorites
+  //     await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user?.uid)
+  //         .collection('favorites')
+  //         .doc(widget.data['id'].toString())
+  //         .delete();
+  //   } else {
+  //     // Add to favorites
+  //     await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user?.uid)
+  //         .collection('favorites')
+  //         .doc(widget.data['id'].toString())
+  //         .set({
+  //       ...widget.data,  // Storing the entire food data
+  //       'foodId': widget.foodId,  // Adding the foodId explicitly
+  //     });
+  //   }
+  //
+  //   // Update the state to reflect the change in the UI
+  //   setState(() {
+  //     isFavorite = !isFavorite;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,13 +109,22 @@ class _FoodDetailsState extends State<FoodDetails> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: isFavorite ? Colors.red : Colors.grey,
-                ),
-                onPressed: _toggleFavorite,
-              ),
+              // Using GetX to reactively update the UI based on the favorite status
+              Obx(() {
+                return IconButton(
+                  icon: Icon(
+                    _favoritesController.isFavorite.value
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: _favoritesController.isFavorite.value
+                        ? Colors.red
+                        : Colors.grey,
+                  ),
+                  onPressed: () {
+                    _favoritesController.toggleFavorite(widget.foodId, widget.data);
+                  },
+                );
+              }),
             ],
           ),
 

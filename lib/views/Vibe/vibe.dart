@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../pacman/game_page.dart';
+
 class Vibe extends StatefulWidget {
   const Vibe({super.key});
 
@@ -10,6 +12,27 @@ class Vibe extends StatefulWidget {
 class _VibeState extends State<Vibe> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Vibe'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the previous screen
+          },
+        ),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const GamePage()),
+            );
+          },
+          child: const Text('Play Game'),
+        ),
+      ),
+    );
   }
 }
