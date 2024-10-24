@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FoodDetails extends StatefulWidget {
+  final String foodId;
   final Map<String, dynamic> data;
   final Function(double selectedPrice, int selectedQuantity) onPriceUpdated;
 
@@ -11,6 +12,7 @@ class FoodDetails extends StatefulWidget {
     super.key,
     required this.data,
     required this.onPriceUpdated,
+    required this.foodId,
   });
 
   @override
@@ -61,7 +63,10 @@ class _FoodDetailsState extends State<FoodDetails> {
           .doc(user?.uid)
           .collection('favorites')
           .doc(widget.data['id'].toString())
-          .set(widget.data); // Storing the entire food data
+          .set({
+        ...widget.data,  // Storing the entire food data
+        'foodId': widget.foodId,  // Adding the foodId explicitly
+      });
     }
 
     // Update the state to reflect the change in the UI

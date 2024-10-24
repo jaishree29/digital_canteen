@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:digital_canteen/utils/constants/image_strings.dart';
 
+import '../../Orders/food_page.dart';
+
 class FavouriteItem extends StatefulWidget {
   final String foodId;
   final String title;
@@ -22,22 +24,22 @@ class FavouriteItem extends StatefulWidget {
 class _FavouriteItemState extends State<FavouriteItem> {
   void whenTapped(BuildContext context, foodId) {
     print(foodId);
-    // showModalBottomSheet(
-    //   context: context,
-    //   isScrollControlled: true,
-    //   backgroundColor: Colors.transparent,
-    //   builder: (BuildContext context) {
-    //     return DraggableScrollableSheet(
-    //       initialChildSize: 1.0,
-    //       maxChildSize: 1.0,
-    //       minChildSize: 1.0,
-    //       expand: true,
-    //       builder: (context, scrollController) {
-    //         return FoodPage(foodId: foodId, scrollController: scrollController);
-    //       },
-    //     );
-    //   },
-    // );
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 1.0,
+          maxChildSize: 1.0,
+          minChildSize: 1.0,
+          expand: true,
+          builder: (context, scrollController) {
+            return FoodPage(foodId: foodId, scrollController: scrollController);
+          },
+        );
+      },
+    );
   }
 
   @override
