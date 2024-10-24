@@ -1,3 +1,6 @@
+import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:digital_canteen/utils/constants/image_strings.dart';
+import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,12 +14,11 @@ class SeeOrderDetails extends StatelessWidget {
   // Create an instance of CancellationService
   final CancellationService cancellationService = CancellationService();
 
-   SeeOrderDetails({
-    super.key,
-    required this.globalOrderId,
-    required this.order,
-    required this.orderId
-  });
+  SeeOrderDetails(
+      {super.key,
+      required this.globalOrderId,
+      required this.order,
+      required this.orderId});
 
   // Function to show the cancel order confirmation dialog
   void _showCancelDialog(BuildContext context) {
@@ -62,7 +64,13 @@ class SeeOrderDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order Details'),
+        toolbarHeight: 100,
+        backgroundColor: NColors.primary,
+        foregroundColor: Colors.white,
+        title: const Text(
+          'Order Details',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -75,19 +83,162 @@ class SeeOrderDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // const Center(
+            //     child: Text(
+            //   'MyCanteen',
+            //   style: TextStyle(
+            //     color: NColors.primary,
+            //     fontSize: 25,
+            //     fontStyle: FontStyle.italic,
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            // )),
             const SizedBox(height: 10),
-            Text('Food Title: ${order['foodTitle'] ?? 'Unknown'}'),
-            Text('Items: ${order['selectedItems'] ?? 0}'),
-            Text('Total Price: ₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}'),
-            Text('Order Status: ${order['orderStatus'] ?? 'Unknown'}'),
-            Text('Global Order ID: ${order['globalOrderId'] ?? 'N/A'}'),
+            Container(
+              // height: 450,
+              height: 550,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(color: NColors.lightGrey),
+                ),
+                color: Colors.white,
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        bottomLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15),
+                      ),
+                      child: Image.network(
+                        NImages.menuImageOne,
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Food Title:',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  ' ${order['foodTitle'] ?? 'Unknown'}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Items:',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '${order['selectedItems'] ?? 0}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Order Status:',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text(
+                                    '${order['orderStatus'] ?? 'Unknown'}',
+                                    style: const TextStyle(
+                                      color: Colors.green,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Divider(),
+                            SizedBox(height: 20,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Total Price:',
+                                  style: TextStyle(
+                                    color: NColors.primary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                    '₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 30),
+            const Spacer(),
             Center(
-              child: ElevatedButton(
+              child: NElevatedButton(
                 onPressed: () {
                   _showCancelDialog(context); // Show the dialog on button press
                 },
-                child: const Text('Cancel Order'),
+                text: 'Cancel Order',
               ),
             ),
           ],

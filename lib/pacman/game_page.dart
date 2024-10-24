@@ -10,10 +10,10 @@ import './player.dart';
 import 'ghost.dart';
 
 class GamePage extends StatefulWidget {
-  const GamePage({Key? key}) : super(key: key);
+  const GamePage({super.key});
 
   @override
-  _GamePageState createState() => _GamePageState();
+  State<GamePage> createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
@@ -179,7 +179,7 @@ class _GamePageState extends State<GamePage> {
               builder: (BuildContext context) {
                 return AlertDialog(
                   title: const Center(child: Text("Game Over!")),
-                  content: Text("Your Score : " + (score).toString()),
+                  content: Text("Your Score : $score"),
                   actions: [
                     MaterialButton(
                       onPressed: () {
@@ -712,7 +712,7 @@ class _GamePageState extends State<GamePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    " Score : " + (score).toString(),
+                    " Score : $score",
                     style: const TextStyle(color: Colors.white, fontSize: 23),
                   ),
                   InkWell(

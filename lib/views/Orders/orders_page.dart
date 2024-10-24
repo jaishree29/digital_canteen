@@ -83,7 +83,11 @@ class _OrdersPageState extends State<OrdersPage> {
               final orders = snapshot.data?.docs ?? [];
 
               if (orders.isEmpty) {
-                return const Center(child: Text('No orders found.'));
+                return const Column(
+                  children: [
+                    Center(child: Text('No orders found.')),
+                  ],
+                );
               }
 
               return ListView.builder(

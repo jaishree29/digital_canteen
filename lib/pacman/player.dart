@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyPlayer extends StatelessWidget {
-  const MyPlayer({Key? key}) : super(key: key);
+  const MyPlayer({super.key});
 
   @override
   Widget build(BuildContext context) {

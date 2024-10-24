@@ -5,7 +5,7 @@ class MyPixel extends StatelessWidget {
   final outerColor;
   final child;
 
-  MyPixel({this.innerColor, this.outerColor, this.child});
+  const MyPixel({super.key, this.innerColor, this.outerColor, this.child});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -13,7 +13,7 @@ class MyPixel extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: Container(
-          padding: EdgeInsets.all(4),
+          padding: const EdgeInsets.all(4),
           color: outerColor,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),

@@ -5,7 +5,7 @@ class MyPath extends StatelessWidget {
   final outerColor;
   final child;
 
-  const MyPath({Key? key, this.innerColor, this.outerColor, this.child}) : super(key: key);
+  const MyPath({super.key, this.innerColor, this.outerColor, this.child});
   @override
   Widget build(BuildContext context) {
     return Padding(
