@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/utils/constants/colors.dart';
+import 'package:digital_canteen/utils/constants/image_strings.dart';
 import 'package:digital_canteen/views/Orders/order_history.dart';
 import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +90,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   final order = orders[index].data() as Map<String, dynamic>;
-                   final orderId = orders[index].id;
+                  final orderId = orders[index].id;
                   final globalOrderId = order['globalOrderId'] ?? '';
                   final orderStatus = order['orderStatus'] ?? 'Unknown';
                   final foodTitle = order['foodTitle'] ?? 'Unknown';
@@ -145,39 +146,62 @@ class _OrdersPageState extends State<OrdersPage> {
                       );
                     },
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: const BorderSide(color: NColors.lightGrey),
+                      ),
+                      color: Colors.white,
                       margin: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 10),
-                      child: ListTile(
-                        title: Text(foodTitle),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Items: $selectedItems'),
-                            Container(
-                              margin: const EdgeInsets.only(top: 4),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: statusColor.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                            child: Image.network(
+                              NImages.menuImageOne,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Expanded(
+                            child: ListTile(
+                              title: Text(foodTitle),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Items: $selectedItems'),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(
+                                      color: statusColor.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text(
+                                      statusText,
+                                      style: TextStyle(
+                                        color: statusColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              child: Text(
-                                statusText,
-                                style: TextStyle(
-                                  color: statusColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('₹${totalPrice.toStringAsFixed(2)}'),
+                                  // Conditionally show cancel icon based on orderStatus
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text('₹${totalPrice.toStringAsFixed(2)}'),
-                            // Conditionally show cancel icon based on orderStatus
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
