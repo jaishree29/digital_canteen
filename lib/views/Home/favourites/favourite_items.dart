@@ -44,7 +44,7 @@ class _FavouriteItemsState extends State<FavouriteItems> {
 
         List<FavouriteItem> favouriteItems = snapshot.data!.docs.map((doc) {
           var data = doc.data() as Map<String, dynamic>;
-          var foodId = doc.id;
+
 
           var price = data['price'] as Map<String, dynamic>?;
 
@@ -63,7 +63,7 @@ class _FavouriteItemsState extends State<FavouriteItems> {
           }
 
           return FavouriteItem(
-            foodId: foodId,
+            foodId: data['foodId'],
             title: data['title'] ?? 'Unknown',
             price: priceDescription,
             rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',

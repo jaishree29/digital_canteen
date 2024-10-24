@@ -126,6 +126,7 @@ class _FoodPageState extends State<FoodPage> {
                       child: FoodDetails(
                         data: data,
                         onPriceUpdated: _updateTotalPrice,
+                        foodId: widget.foodId,
                       ),
                     );
                   },
