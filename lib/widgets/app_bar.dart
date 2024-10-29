@@ -8,13 +8,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String text;
   final Widget? child;
   final bool isMenuOpen;
-
+  final Function(bool highToLow, bool lowToHigh, bool shortTime, bool longTime)
+      onApplyFilters;
 
   const MyAppBar({
     super.key,
     required this.text,
     this.child,
     required this.isMenuOpen,
+    required this.onApplyFilters,
   });
 
   @override
@@ -60,7 +62,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               const SizedBox(height: 20),
               child!,
               const SizedBox(height: 20),
-              if (isMenuOpen) const MenuContainer(),
+              if (isMenuOpen) MenuContainer(onApplyFilters: onApplyFilters),
             ],
           ),
         ),

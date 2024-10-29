@@ -5,8 +5,12 @@ import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 
 class MenuContainer extends StatefulWidget {
+  final Function(bool highToLow, bool lowToHigh, bool shortTime, bool longTime)
+      onApplyFilters;
+
   const MenuContainer({
     super.key,
+    required this.onApplyFilters,
   });
 
   @override
@@ -141,6 +145,8 @@ class _MenuContainerState extends State<MenuContainer> {
                     text: 'Apply Changes',
                     onPressed: () {
                       setState(() {
+                        widget.onApplyFilters(
+                            _highToLow, _lowToHigh, _shortTime, _longTime);
                         Navigator.pop(context);
                       });
                     },
@@ -192,7 +198,7 @@ class _MenuContainerState extends State<MenuContainer> {
         borderRadius: BorderRadius.circular(8),
         onTap: onPressed,
         child: Padding(
-          padding:const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 12),
           child: Row(
             children: [
               Icon(
