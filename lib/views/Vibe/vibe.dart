@@ -1,3 +1,4 @@
+import 'package:digital_canteen/views/Vibe/upi_payment_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../pacman/game_page.dart';
@@ -22,16 +23,31 @@ class _VibeState extends State<Vibe> {
           },
         ),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const GamePage()),
-            );
-          },
-          child: const Text('Play Game'),
-        ),
+      body: Column(
+        children: [
+          // Center(
+          //   child: ElevatedButton(
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => const GamePage()),
+          //       );
+          //     },
+          //     child: const Text('Play Game'),
+          //   ),
+          // ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  UpiPaymentScreen()),
+                );
+              },
+              child: const Text('PAY'),
+            ),
+          ),
+        ],
       ),
     );
   }

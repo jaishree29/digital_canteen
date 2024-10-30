@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../pacman/game_page.dart';
+import '../Vibe/upi_payment_screen.dart';
 
 class VibeScreen extends StatelessWidget {
   const VibeScreen({super.key});
@@ -17,17 +18,32 @@ class VibeScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate to existing GamePage when button is pressed
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const GamePage()),
-            );
-          },
-          child: const Text('Play Game'),
-        ),
+      body: Column(
+        children: [
+          // Center(
+          //   child: ElevatedButton(
+          //     onPressed: () {
+          //       // Navigate to existing GamePage when button is pressed
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => const GamePage()),
+          //       );
+          //     },
+          //     child: const Text('Play Game'),
+          //   ),
+          // ),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  UpiPaymentScreen()),
+                );
+              },
+              child: const Text('PAY'),
+            ),
+          ),
+        ],
       ),
     );
   }

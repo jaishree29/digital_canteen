@@ -46,8 +46,8 @@ class CartItem extends StatelessWidget {
               ),
               child: Image.network(
                 NImages.menuImageOne,
-                height: 150,
-                width: 150,
+                height: 120,
+                width: 120,
                 fit: BoxFit.cover,
               ),
             ),
