@@ -21,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   bool _isMenuOpen = false;
   String _searchQuery = '';
+  bool _highToLow = false;
+  bool _lowToHigh = false;
+  bool _shortTime = false;
+  bool _longTime = false;
 
   @override
   void initState() {
@@ -49,7 +53,19 @@ class _HomeScreenState extends State<HomeScreen>
   void _onSearchChanged(String query) {
     setState(() {
       _searchQuery = query;
-      print('Search query updated: $_searchQuery'); 
+      print('Search query updated: $_searchQuery');
+    });
+  }
+
+  void _applyFilters(
+      bool highToLow, bool lowToHigh, bool shortTime, bool longTime) {
+    setState(() {
+      _highToLow = highToLow;
+      _lowToHigh = lowToHigh;
+      _shortTime = shortTime;
+      _longTime = longTime;
+      print(
+          'Filters applied: highToLow=$_highToLow, lowToHigh=$_lowToHigh, shortTime=$_shortTime, longTime=$_longTime');
     });
   }
 
@@ -59,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: MyAppBar(
         text: 'Home',
         isMenuOpen: _isMenuOpen,
+        onApplyFilters: _applyFilters,
         child: NSearchBar(
           onMenuPressed: _toggleMenu,
           onSearchChanged: _onSearchChanged,
@@ -148,12 +165,15 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         const SizedBox(height: 10),
-        const RecentlyAdded()
+        const RecentlyAdded(),
+        const SizedBox(height: 20),
       ],
     );
   }
 
   Widget _buildSearchResults() {
+    print(
+        'Building search results with filters: highToLow=$_highToLow, lowToHigh=$_lowToHigh, shortTime=$_shortTime, longTime=$_longTime');
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('menu').snapshots(),
       builder: (context, snapshot) {
@@ -175,6 +195,21 @@ class _HomeScreenState extends State<HomeScreen>
                     .contains(_searchQuery.toLowerCase()) ||
                 _searchQuery.isEmpty)
             .toList();
+
+        // Apply filters
+        if (_highToLow) {
+          filteredItems.sort((a, b) =>
+              (b['price']['full'] as num).compareTo(a['price']['full'] as num));
+        } else if (_lowToHigh) {
+          filteredItems.sort((a, b) =>
+              (a['price']['full'] as num).compareTo(b['price']['full'] as num));
+        } else if (_shortTime) {
+          filteredItems.sort((a, b) =>
+              (a['time'] as num).compareTo(b['time'] as num));
+        } else if (_longTime) {
+          filteredItems.sort((a, b) =>
+              (b['time'] as num).compareTo(a['time'] as num));
+        }
 
         if (filteredItems.isEmpty) {
           return const Center(child: Text('No results match your search.'));

@@ -197,9 +197,9 @@ class SeeOrderDetails extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Spacer(),
-                            Divider(),
-                            SizedBox(height: 20,),
+                            const Spacer(),
+                            const Divider(),
+                            const SizedBox(height: 20,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -212,14 +212,14 @@ class SeeOrderDetails extends StatelessWidget {
                                 ),
                                 Text(
                                     '₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             
