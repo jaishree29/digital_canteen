@@ -6,6 +6,8 @@ import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../timer/order_tracking_page.dart';
+
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
 
@@ -137,11 +139,22 @@ class _OrdersPageState extends State<OrdersPage> {
 
                   return GestureDetector(
                     onTap: () {
-                      // Navigate to order details page
+                      // // Navigate to order details page
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => SeeOrderDetails(
+                      //       globalOrderId: globalOrderId,
+                      //       order: order,
+                      //       orderId: orderId,
+                      //     ),
+                      //   ),
+                      // );
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SeeOrderDetails(
+                          builder: (context) => TrackingOrderPage(
                             globalOrderId: globalOrderId,
                             order: order,
                             orderId: orderId,
@@ -215,19 +228,6 @@ class _OrdersPageState extends State<OrdersPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to the Recently Ordered page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RecentlyOrderedPage(),
-            ),
-          );
-        },
-        child: const Icon(Icons.access_time),
-      ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Specify location
     );
   }
 }

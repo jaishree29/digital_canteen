@@ -82,6 +82,7 @@ flutter:
     - assets/images/ghost2.png
     - assets/images/ghost3.png
     - assets/images/pacman.png
+    - assets/images/order_track.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,7 +1,7 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/Home/home_screen.dart';
 import 'package:digital_canteen/views/Orders/orders_page.dart';
-import 'package:digital_canteen/views/vibe_screen/vibe_screen.dart';
+import 'package:digital_canteen/views/Vibe/vibe_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'Profile/my_profile_page.dart';

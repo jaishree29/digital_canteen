@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/views/Orders/orders_page.dart';
 import 'package:digital_canteen/views/checkout/payment_service.dart';
+import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../Home/home_screen.dart';
 
 class PaymentPage extends StatelessWidget {
   final double totalPrice;
@@ -54,19 +58,19 @@ class PaymentPage extends StatelessWidget {
                 List<QueryDocumentSnapshot> cartItems = await getAllCartItems();
 
                 PaymentService paymentService =
-                    PaymentService(cartItems, totalPrice);
+                PaymentService(cartItems, totalPrice);
                 await paymentService.completePayment(cartItems, totalPrice);
                 // Show success message
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Payment successful! Order placed.')),
+                  const SnackBar(content: Text('Payment successful! Order placed.')),
                 );
 
-                // Wait for a short duration to display the SnackBar before navigating back
+                // Wait for a short duration to display the SnackBar before navigating
                 await Future.delayed(const Duration(seconds: 2));
 
-                // Navigate back to the previous page
+                // Navigate to the homepage and clear the navigation stack
                 Navigator.pop(context);
+
               } catch (e) {
                 // Handle errors
                 ScaffoldMessenger.of(context).showSnackBar(
