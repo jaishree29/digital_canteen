@@ -23,47 +23,47 @@ class _NavigationPageState extends State<NavigationPage> {
     const MyProfilePage(),
   ];
 
-  void _showModalBottomSheet(BuildContext context, int index) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true, 
-      backgroundColor: Colors.transparent, 
-      builder: (BuildContext context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 1.0,
-          maxChildSize: 1.0,
-          minChildSize: 1.0,
-          expand: true,
-          builder: (context, scrollController) {
-            return Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              // padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                controller: scrollController, 
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 2, 
-                  child: index == 1 ? const OrdersPage() : const VibeScreen(),
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+  // void _showModalBottomSheet(BuildContext context, int index) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     backgroundColor: Colors.transparent,
+  //     builder: (BuildContext context) {
+  //       return DraggableScrollableSheet(
+  //         initialChildSize: 1.0,
+  //         maxChildSize: 1.0,
+  //         minChildSize: 1.0,
+  //         expand: true,
+  //         builder: (context, scrollController) {
+  //           return Container(
+  //             height: MediaQuery.of(context).size.height,
+  //             decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: const BorderRadius.vertical(
+  //                 top: Radius.circular(20),
+  //               ),
+  //               boxShadow: [
+  //                 BoxShadow(
+  //                   color: Colors.black.withOpacity(0.2),
+  //                   blurRadius: 10,
+  //                   spreadRadius: 5,
+  //                 ),
+  //               ],
+  //             ),
+  //             // padding: const EdgeInsets.all(16.0),
+  //             child: SingleChildScrollView(
+  //               controller: scrollController,
+  //               child: SizedBox(
+  //                 height: MediaQuery.of(context).size.height * 2,
+  //                 child: index == 1 ? const OrdersPage() : const VibeScreen(),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +85,12 @@ class _NavigationPageState extends State<NavigationPage> {
             backgroundColor: Colors.white,
             currentIndex: myCurrentIndex,
             onTap: (index) {
-              if (index == 1 || index == 2) {
-                _showModalBottomSheet(context, index);
-              } else {
-                setState(() {
-                  myCurrentIndex = index; 
-                });
-              }
+              // if (index == 1 || index == 2) {
+              //   _showModalBottomSheet(context, index);
+              // } else {
+              setState(() {
+                myCurrentIndex = index;
+              });
             },
             selectedItemColor: NColors.primary,
             unselectedItemColor: NColors.secondary,

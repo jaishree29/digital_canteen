@@ -21,7 +21,8 @@ class _CartPageState extends State<CartPage> {
     for (var item in cartItems) {
       final data = item.data() as Map<String, dynamic>;
       final double price = data['selectedPrice'] ?? 0.0;
-      final int quantity = data['selectedItems'] ?? 1; // Default to 1 if not provided
+      final int quantity =
+          data['selectedItems'] ?? 1; // Default to 1 if not provided
       totalPrice += price * quantity; // Multiply price by quantity
     }
     return totalPrice;
@@ -38,17 +39,17 @@ class _CartPageState extends State<CartPage> {
             Navigator.pop(context); // Navigate back
           },
         ),
+        title: const Text(
+          'Cart Items',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        ),
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              const Text(
-                'Cart Items',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
+              // const SizedBox(height: 16),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: _cartItems.getCartItems(),
@@ -59,7 +60,9 @@ class _CartPageState extends State<CartPage> {
                     if (!snapshot.hasData ||
                         snapshot.data == null ||
                         snapshot.data!.docs.isEmpty) {
-                      return const Center(child: Text('No items added yet!', style: TextStyle(fontSize: 20)));
+                      return const Center(
+                          child: Text('No items added yet!',
+                              style: TextStyle(fontSize: 20)));
                     }
 
                     final cartItems = snapshot.data!.docs;
@@ -72,7 +75,8 @@ class _CartPageState extends State<CartPage> {
                             itemCount: cartItems.length,
                             itemBuilder: (context, index) {
                               final cartItem = cartItems[index];
-                              final data = cartItem.data() as Map<String, dynamic>;
+                              final data =
+                                  cartItem.data() as Map<String, dynamic>;
 
                               return CartItem(
                                 foodId: data['foodId'],
@@ -104,7 +108,8 @@ class _CartPageState extends State<CartPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => CheckoutPage(
-                                      cartItems: snapshot.data!.docs, // Pass cartItems
+                                      cartItems:
+                                          snapshot.data!.docs, // Pass cartItems
                                       totalPrice: totalPrice, // Pass totalPrice
                                     ),
                                   ),
@@ -112,14 +117,16 @@ class _CartPageState extends State<CartPage> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: NColors.primary,
-                                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 50, vertical: 15),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               child: const Text(
                                 'Continue',
-                                style: TextStyle(fontSize: 18, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ),
                           ],

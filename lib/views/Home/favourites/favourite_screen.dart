@@ -1,7 +1,7 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'favourite_items.dart'; 
-import 'reorder_screen.dart'; 
+import '../reorder/reorder_screen.dart'; 
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -47,7 +47,7 @@ class FavouriteScreen extends StatelessWidget {
             child: TabBarView(
               children: [
                 FavouriteItems(), 
-                const ReorderScreen(), 
+                ReorderScreen(), 
               ],
             ),
           ),
