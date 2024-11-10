@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/Profile/profile_info_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
                     Container(
                       height: 240,
                       width: double.infinity,
-                      color: Colors.red,
+                      color: NColors.primary,
                       child: Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Column(

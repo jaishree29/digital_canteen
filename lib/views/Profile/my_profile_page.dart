@@ -1,5 +1,7 @@
 import 'package:digital_canteen/controllers/auth_controller.dart';
+import 'package:digital_canteen/views/Profile/about_us.dart';
 import 'package:digital_canteen/views/Profile/edit_profile.dart';
+import 'package:digital_canteen/views/Profile/feedback_page.dart';
 import 'package:digital_canteen/views/Profile/profile_card.dart';
 import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
@@ -205,13 +207,19 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           title: "About Us",
                           subtitle: "Frequently asked questions",
                           icon: Icons.book,
-                          onTap: () {},
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AboutUs()),
+                          ),
                         ),
                         ProfileCard(
                           title: "Feedback",
                           subtitle: "Frequently asked questions",
                           icon: Icons.book,
-                          onTap: () {},
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const FeedbackPage()),
+                          ),
                         ),
                         ProfileCard(
                           title: "Privacy",

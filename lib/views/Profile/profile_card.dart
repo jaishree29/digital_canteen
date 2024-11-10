@@ -1,3 +1,4 @@
+import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -19,7 +20,7 @@ class ProfileCard extends StatelessWidget {
     return Container(
       color: Colors.transparent,
       child: ListTile(
-        leading: Icon(icon, size: 20,color: Colors.red,),  // Use the passed icon directly
+        leading: Icon(icon, size: 20,color: NColors.primary,),  // Use the passed icon directly
         title: Text(title, style: const TextStyle(fontSize: 16)),
         subtitle: Text(subtitle, style: const TextStyle(color: Colors.grey)),
         trailing: const Icon(Icons.arrow_forward_ios, size: 15),  // Changed to 'arrow_forward'
