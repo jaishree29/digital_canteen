@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/Profile/profile_info_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -46,12 +47,16 @@ class _EditProfileState extends State<EditProfile> {
 
   Future<Map<String, dynamic>> getUserData(String userId) async {
     DocumentSnapshot doc =
-    await FirebaseFirestore.instance.collection('users').doc(userId).get();
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     return doc.data() as Map<String, dynamic>;
   }
 
-  Future<void> updateUserData(String userId, Map<String, dynamic> updatedData) async {
-    await FirebaseFirestore.instance.collection('users').doc(userId).update(updatedData);
+  Future<void> updateUserData(
+      String userId, Map<String, dynamic> updatedData) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .update(updatedData);
   }
 
   @override
@@ -87,30 +92,32 @@ class _EditProfileState extends State<EditProfile> {
                     Container(
                       height: 240,
                       width: double.infinity,
-                      color: Colors.red,
+                      color: NColors.primary,
                       child: Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Column(
                           children: [
                             const SizedBox(height: 20),
-                            Row(
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                      Icons.arrow_back_ios_new_rounded,
-                                      color: Colors.white,
-                                      size: 15),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                                const Text(
-                                  "Edit Profile",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white),
-                                ),
-                                const Spacer(),
-                              ],
+                            InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.arrow_back_ios_new_rounded,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
+                                  SizedBox(width: 20,),
+                                  Text(
+                                    "Edit Profile",
+                                    style: TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                  ),
+                                  Spacer(),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -127,7 +134,8 @@ class _EditProfileState extends State<EditProfile> {
                             radius: 55,
                             backgroundImage: imagePath != null
                                 ? FileImage(File(imagePath!))
-                                : const AssetImage('asset/images/ghost.png') as ImageProvider,
+                                : const AssetImage('asset/images/ghost.png')
+                                    as ImageProvider,
                           ),
                         ),
                       ),
@@ -161,7 +169,8 @@ class _EditProfileState extends State<EditProfile> {
                           initialValue: userData['Phone Number'],
                           hintText: 'Enter your phone here',
                           onChange: (newValue) async {
-                            await updateUserData(userId, {'Phone Number': newValue});
+                            await updateUserData(
+                                userId, {'Phone Number': newValue});
                           },
                         ),
                       ],

@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/Orders/orders_page.dart';
 import 'package:digital_canteen/views/checkout/payment_service.dart';
-import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../Home/home_screen.dart';
 
 class PaymentPage extends StatelessWidget {
   final double totalPrice;
@@ -57,12 +54,36 @@ class PaymentPage extends StatelessWidget {
                 // Get all cart items
                 List<QueryDocumentSnapshot> cartItems = await getAllCartItems();
 
+                // Move cart items to recently ordered sub-collection
+                final user = FirebaseAuth.instance.currentUser;
+                if (user == null) {
+                  throw Exception('User not authenticated');
+                }
+
+                WriteBatch batch = FirebaseFirestore.instance.batch();
+
+                for (var cartItem in cartItems) {
+                  batch.set(
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.uid)
+                        .collection('recently_ordered')
+                        .doc(),
+                    cartItem.data(),
+                  );
+                  batch.delete(cartItem.reference);
+                }
+
+                await batch.commit();
+
                 PaymentService paymentService =
-                PaymentService(cartItems, totalPrice);
+                    PaymentService(cartItems, totalPrice);
                 await paymentService.completePayment(cartItems, totalPrice);
+
                 // Show success message
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Payment successful! Order placed.')),
+                  const SnackBar(
+                      content: Text('Payment successful! Order placed.')),
                 );
 
                 // Wait for a short duration to display the SnackBar before navigating
@@ -70,7 +91,6 @@ class PaymentPage extends StatelessWidget {
 
                 // Navigate to the homepage and clear the navigation stack
                 Navigator.pop(context);
-
               } catch (e) {
                 // Handle errors
                 ScaffoldMessenger.of(context).showSnackBar(

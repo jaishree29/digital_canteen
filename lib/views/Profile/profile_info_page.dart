@@ -95,7 +95,7 @@ class _ProfileInfoPageState extends State<ProfileInfoPage> {
               },
               child: const Text(
                 'CHANGE',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: NColors.primary),
               ),
             ),
           ),

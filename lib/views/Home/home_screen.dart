@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/views/Home/popular.dart';
 import 'package:digital_canteen/views/Home/recently_added.dart';
+import 'package:digital_canteen/views/Home/recently_ordered.dart';
 import 'package:digital_canteen/widgets/app_bar.dart';
 import 'package:digital_canteen/widgets/cards.dart';
 import 'package:digital_canteen/widgets/image_carousel.dart';
@@ -107,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen>
               Expanded(
                 child: NTextButton(
                   onTap: () => _selectTab(0),
-                  text: 'Recently Ordered',
+                  text: 'Popular ❤️',
                   selected: _tabController.index == 0,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen>
               Expanded(
                 child: NTextButton(
                   onTap: () => _selectTab(1),
-                  text: 'Popular ❤️',
+                  text: 'Recently Ordered',
                   selected: _tabController.index == 1,
                   borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(10),
@@ -133,28 +134,13 @@ class _HomeScreenState extends State<HomeScreen>
         SizedBox(
           height: 250,
           child: TabBarView(
+            physics: const ScrollPhysics(parent: NeverScrollableScrollPhysics()),
             controller: _tabController,
             children: const [
               // First tab content
               Popular(),
               // Second tab content
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    // NCards(
-                    //   title: 'French Fries',
-                    //   description:
-                    //       'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    // ),
-                    // NCards(
-                    //   title: 'French Fries',
-                    //   description:
-                    //     'Half Plate - \$1.99 | Full Plate - \$2.5',
-                    // ),
-                  ],
-                ),
-              ),
+              RecentlyOrdered(),
             ],
           ),
         ),
