@@ -58,7 +58,7 @@ class _OrdersPageState extends State<OrdersPage> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        toolbarHeight: 120,
+        toolbarHeight: 100,
       ),
       body: SafeArea(
         child: Padding(
@@ -81,7 +81,7 @@ class _OrdersPageState extends State<OrdersPage> {
               final orders = snapshot.data?.docs ?? [];
 
               if (orders.isEmpty) {
-                return const Center(child: Text('No orders found.'));
+                return const Center(child: Text('No orders found!'));
               }
 
               return ListView.builder(

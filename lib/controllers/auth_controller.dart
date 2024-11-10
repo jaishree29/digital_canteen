@@ -8,6 +8,16 @@ class AuthController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+
+  // Method to send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw Exception('Error sending password reset email: $e');
+    }
+  }
+
   // Sign up with email and password
   Future<UserModel?> signUpWithEmailPassword(String email, String password) async {
     try {
