@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../pacman/game_page.dart';
 
 class VibeScreen extends StatelessWidget {
   const VibeScreen({super.key});
@@ -17,17 +16,12 @@ class VibeScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate to existing GamePage when button is pressed
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const GamePage()),
-            );
-          },
-          child: const Text('Play Game'),
-        ),
+      body: Column(
+        children: [
+
+
+
+        ],
       ),
     );
   }

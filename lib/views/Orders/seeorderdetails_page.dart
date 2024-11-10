@@ -231,14 +231,16 @@ class SeeOrderDetails extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
-            const Spacer(),
-            Center(
-              child: NElevatedButton(
-                onPressed: () {
-                  _showCancelDialog(context); // Show the dialog on button press
-                },
-                text: 'Cancel Order',
+          //  const SizedBox(height: 30),
+          //  const Spacer(),
+            Expanded(
+              child: Center(
+                child: NElevatedButton(
+                  onPressed: () {
+                    _showCancelDialog(context); // Show the dialog on button press
+                  },
+                  text: 'Cancel Order',
+                ),
               ),
             ),
           ],

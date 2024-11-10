@@ -1,41 +1,68 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/views/Profile/profile_info_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:hive/hive.dart';
 
-class EditProfile extends StatelessWidget {
-  EditProfile({super.key});
+class EditProfile extends StatefulWidget {
+  EditProfile({Key? key}) : super(key: key);
 
-  // Access the current user from FirebaseAuth
+  @override
+  _EditProfileState createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
   final User? user = FirebaseAuth.instance.currentUser;
+  final picker = ImagePicker();
+  String? imagePath; // Store the image path
 
-  // Function to get user data from Firestore
+  @override
+  void initState() {
+    super.initState();
+    loadImage();
+  }
+
+  // Load image from Hive
+  void loadImage() async {
+    final box = Hive.box('userBox');
+    setState(() {
+      imagePath = box.get('profileImagePath'); // Retrieve image path from Hive
+    });
+  }
+
+  // Pick image and save to Hive
+  Future<void> pickImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        imagePath = pickedFile.path; // Update image path
+      });
+      final box = Hive.box('userBox');
+      box.put('profileImagePath', imagePath); // Save image path to Hive
+    }
+  }
+
   Future<Map<String, dynamic>> getUserData(String userId) async {
     DocumentSnapshot doc =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    await FirebaseFirestore.instance.collection('users').doc(userId).get();
     return doc.data() as Map<String, dynamic>;
   }
 
-  // Function to update user data in Firestore
-  Future<void> updateUserData(
-      String userId, Map<String, dynamic> updatedData) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userId)
-        .update(updatedData);
+  Future<void> updateUserData(String userId, Map<String, dynamic> updatedData) async {
+    await FirebaseFirestore.instance.collection('users').doc(userId).update(updatedData);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get the current user's UID, check if user is logged in
     if (user == null) {
-      // If no user is logged in, show an error or redirect
       return const Scaffold(
         body: Center(child: Text('No user is logged in. Please log in.')),
       );
     }
 
-    String userId = user!.uid; // Safely access the UID
+    String userId = user!.uid;
 
     return Scaffold(
       body: SafeArea(
@@ -57,7 +84,6 @@ class EditProfile extends StatelessWidget {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    // Main Container
                     Container(
                       height: 240,
                       width: double.infinity,
@@ -78,7 +104,6 @@ class EditProfile extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                 ),
-                                // const Spacer(),
                                 const Text(
                                   "Edit Profile",
                                   style: TextStyle(
@@ -91,22 +116,22 @@ class EditProfile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // Positioned Image at the top center
-                    const Positioned(
+                    Positioned(
                       top: 100,
                       left: 0,
                       right: 0,
                       child: Center(
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundImage:
-                              AssetImage('asset/images/profile_pic.png'),
+                        child: GestureDetector(
+                          onTap: pickImage, // Call pickImage on tap
+                          child: CircleAvatar(
+                            radius: 55,
+                            backgroundImage: imagePath != null
+                                ? FileImage(File(imagePath!))
+                                : const AssetImage('asset/images/ghost.png') as ImageProvider,
+                          ),
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   height: 20,
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -136,8 +161,7 @@ class EditProfile extends StatelessWidget {
                           initialValue: userData['Phone Number'],
                           hintText: 'Enter your phone here',
                           onChange: (newValue) async {
-                            await updateUserData(
-                                userId, {'Phone Number': newValue});
+                            await updateUserData(userId, {'Phone Number': newValue});
                           },
                         ),
                       ],

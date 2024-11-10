@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digital_canteen/views/checkout/phone_payment_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class PaymentService {
   final double totalPrice;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -10,13 +11,24 @@ class PaymentService {
   PaymentService(List<QueryDocumentSnapshot<Object?>> cartItems, this.totalPrice);
 
   // Function that integrates payment completion with order creation
-  Future<void> completePayment(List<QueryDocumentSnapshot> cartItems,totalPrice) async {
+  Future<void> completePayment(List<QueryDocumentSnapshot> cartItems, double totalPrice) async {
     final user = auth.currentUser; // Get the current user
     if (user == null) {
       throw Exception('User not authenticated');
     }
 
     try {
+      // Fetch user details from Firestore
+      DocumentSnapshot userDoc = await firestore.collection('users').doc(user.uid).get();
+      if (!userDoc.exists) {
+        throw Exception('User details not found');
+      }
+
+      // Extract user details from the document
+      final userData = userDoc.data() as Map<String, dynamic>;
+      final userName = userData['Name'];
+      final userPhone = userData['Phone Number'];
+
       // Call the phone payment service to process payment
       bool paymentSuccess = await phonePaymentService.processPhonePayment(totalPrice);
 
@@ -46,6 +58,10 @@ class PaymentService {
           'selectedPrice': cartItemData['selectedPrice'],
           'selectedItems': cartItemData['selectedItems'],
           'globalOrderId': globalOrderId, // Reference to the global order
+          'OrderId': userOrderId,
+          'preparationDuration': 600, // Example: 10 minutes in seconds
+          'userName': userName, // Added user name
+          'userPhone': userPhone, // Added user phone
         });
 
         print('Order created successfully for item: ${cartItemData['foodTitle']}');
@@ -64,9 +80,14 @@ class PaymentService {
           'foodTitle': cartItemData['foodTitle'],
           'selectedPrice': cartItemData['selectedPrice'],
           'selectedItems': cartItemData['selectedItems'],
+          'deliveryStatus': 'Pending',
+          'userName': userName, // Added user name
+          'userPhone': userPhone, // Added user phone
+          'notification': 'null',
         });
 
         print('Global order created successfully for item: ${cartItemData['foodTitle']}');
+
         // After successfully placing the order, delete the item from the user's cart
         await firestore
             .collection('users')
@@ -79,7 +100,6 @@ class PaymentService {
       }
 
       print('All orders created successfully for the user and global orders.');
-
 
     } catch (e) {
       throw Exception('Error during payment or order processing: $e');
