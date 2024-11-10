@@ -1,6 +1,5 @@
 
 import 'package:digital_canteen/controllers/auth_controller.dart';
-import 'package:digital_canteen/views/Profile/about_us.dart';
 import 'package:digital_canteen/views/Profile/edit_profile.dart';
 import 'package:digital_canteen/views/Profile/feedback_page.dart';
 import 'package:digital_canteen/views/Profile/profile_card.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'about_page/about_us.dart';
-import 'edit_profile.dart';
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
 
@@ -41,19 +39,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Successfully logged out!')));
-  }
-
-  void _openUrl() async {
-    const String url =
-        'https://www.instagram.com/notclgcom?igsh=czVybmJlNjVvNWVq';
-
-    if (!await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url), mode: LaunchMode.inAppBrowserView);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not launch Play Store')),
-      );
-    }
   }
 
   // Show dialog to enter email for password reset
