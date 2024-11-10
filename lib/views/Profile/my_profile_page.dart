@@ -1,16 +1,20 @@
+
 import 'package:digital_canteen/controllers/auth_controller.dart';
 import 'package:digital_canteen/views/Profile/about_us.dart';
 import 'package:digital_canteen/views/Profile/edit_profile.dart';
 import 'package:digital_canteen/views/Profile/feedback_page.dart';
 import 'package:digital_canteen/views/Profile/profile_card.dart';
+import 'package:digital_canteen/views/Profile/rate_us/rate_us.dart';
+import 'package:digital_canteen/views/Profile/terms_and_condition/terms_and_conditions.dart';
 import 'package:digital_canteen/views/auth/sign_up_screen.dart';
 import 'package:digital_canteen/views/navigation_page.dart';
 import 'package:digital_canteen/views/splash_screen.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import 'about_page/about_us.dart';
+import 'edit_profile.dart';
 class MyProfilePage extends StatefulWidget {
   const MyProfilePage({super.key});
 
@@ -201,16 +205,25 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           title: "Rate Us",
                           subtitle: "Rate us on Playstore, Appstore",
                           icon: Icons.star,
-                          onTap: _openUrl,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RateUsPage()),
+                            );
+                          },
                         ),
                         ProfileCard(
                           title: "About Us",
                           subtitle: "Frequently asked questions",
                           icon: Icons.book,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AboutUs()),
-                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AboutUsPage()),
+                            );
+                          },
                         ),
                         ProfileCard(
                           title: "Feedback",
@@ -228,7 +241,13 @@ class _MyProfilePageState extends State<MyProfilePage> {
                           onTap: () {},
                         ),
                         ProfileCard(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TermsAndConditionsPage()),
+                            );
+                          },
                           title: "Terms and Conditions",
                           subtitle: "Click to view",
                           icon: Icons.book,
