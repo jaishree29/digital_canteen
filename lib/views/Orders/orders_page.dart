@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
-import 'package:digital_canteen/views/Orders/order_history.dart';
-import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../timer/order_tracking_page.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/image_strings.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -18,6 +16,24 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> updateVendorAndOrderStatus(String globalOrderId, String orderId) async {
+    // Implement the function to update the vendor side data here.
+    // This is a placeholder function, replace it with actual logic.
+    await _firestore.collection('global_orders').doc(globalOrderId).update({
+      'notification': 'User is picking up the order!',
+    });
+
+    // Update the order status to "Order Prepared" in the user's collection.
+    await _firestore
+        .collection('users')
+        .doc(_auth.currentUser?.uid)
+        .collection('orders')
+        .doc(orderId)
+        .update({
+      'orderStatus': 'Order Prepared',
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,33 +50,13 @@ class _OrdersPageState extends State<OrdersPage> {
         automaticallyImplyLeading: false,
         foregroundColor: Colors.white,
         backgroundColor: NColors.primary,
-        title: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  'My Orders',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ],
+        title: const Text(
+          'My Orders',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         toolbarHeight: 120,
       ),
@@ -85,11 +81,7 @@ class _OrdersPageState extends State<OrdersPage> {
               final orders = snapshot.data?.docs ?? [];
 
               if (orders.isEmpty) {
-                return const Column(
-                  children: [
-                    Center(child: Text('No orders found.')),
-                  ],
-                );
+                return const Center(child: Text('No orders found.'));
               }
 
               return ListView.builder(
@@ -112,25 +104,13 @@ class _OrdersPageState extends State<OrdersPage> {
                       statusColor = Colors.orange;
                       statusText = 'Pending';
                       break;
-                    case 'Available':
+                    case 'Order is Ready':
                       statusColor = Colors.green;
-                      statusText = 'Available';
-                      break;
-                    case 'Not Available':
-                      statusColor = Colors.red;
-                      statusText = 'Not Available';
-                      break;
-                    case 'Order Preparing':
-                      statusColor = Colors.red;
-                      statusText = 'Order Preparing';
+                      statusText = 'Order is Ready';
                       break;
                     case 'Order Prepared':
-                      statusColor = Colors.red;
+                      statusColor = Colors.blue;
                       statusText = 'Order Prepared';
-                      break;
-                    case 'Order Delivered':
-                      statusColor = Colors.red;
-                      statusText = 'Order Delivered';
                       break;
                     default:
                       statusColor = Colors.grey;
@@ -138,29 +118,59 @@ class _OrdersPageState extends State<OrdersPage> {
                   }
 
                   return GestureDetector(
-                    onTap: () {
-                      // // Navigate to order details page
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => SeeOrderDetails(
-                      //       globalOrderId: globalOrderId,
-                      //       order: order,
-                      //       orderId: orderId,
-                      //     ),
-                      //   ),
-                      // );
+                    onTap: () async {
+                      if (orderStatus == 'Order is Ready') {
+                        // Show dialog asking if the user is going to pick the order
+                        bool? isPickingUp = await showDialog<bool>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Order Pickup Confirmation'),
+                              content: const Text(
+                                  'Hey, are you going to pick up your order?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(false),
+                                  child: const Text('No'),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(true),
+                                  child: const Text('Yes'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TrackingOrderPage(
-                            globalOrderId: globalOrderId,
-                            order: order,
-                            orderId: orderId,
+                        if (isPickingUp == true) {
+                          // Update vendor and change order status to "Order Prepared"
+                          await updateVendorAndOrderStatus(globalOrderId, orderId);
+
+                          // Navigate to tracking page after confirmation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TrackingOrderPage(
+                                globalOrderId: globalOrderId,
+                                order: order,
+                                orderId: orderId,
+                              ),
+                            ),
+                          );
+                        }
+                      } else {
+                        // If status is not "Order is Ready", directly navigate to tracking page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrackingOrderPage(
+                              globalOrderId: globalOrderId,
+                              order: order,
+                              orderId: orderId,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -209,13 +219,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                   ),
                                 ],
                               ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('₹${totalPrice.toStringAsFixed(2)}'),
-                                  // Conditionally show cancel icon based on orderStatus
-                                ],
-                              ),
+                              trailing: Text('₹${totalPrice.toStringAsFixed(2)}'),
                             ),
                           ),
                         ],

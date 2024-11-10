@@ -83,6 +83,7 @@ class PaymentService {
           'deliveryStatus': 'Pending',
           'userName': userName, // Added user name
           'userPhone': userPhone, // Added user phone
+          'notification': 'null',
         });
 
         print('Global order created successfully for item: ${cartItemData['foodTitle']}');
