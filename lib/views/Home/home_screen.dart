@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/utils/constants/colors.dart';
 import 'package:digital_canteen/views/Home/popular.dart';
 import 'package:digital_canteen/views/Home/recently_added.dart';
 import 'package:digital_canteen/views/Home/recently_ordered.dart';
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen>
   bool _lowToHigh = false;
   bool _shortTime = false;
   bool _longTime = false;
-  bool _showFloatingContainer = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -36,37 +34,8 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _listenToOrderStatus();
   }
 
-  void _listenToOrderStatus() {
-    _firestore
-        .collection('users')
-        .doc(_auth.currentUser?.uid)
-        .collection('orders')
-        .where('orderStatus', isEqualTo: 'Order is Ready')
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.docs.isNotEmpty) {
-        setState(() {
-          _showFloatingContainer = true;
-        });
-      } else {
-        setState(() {
-          _showFloatingContainer = false;
-        });
-      }
-    });
-  }
-
-  Future<void> _updateOrderStatus(String orderId) async {
-    await _firestore
-        .collection('users')
-        .doc(_auth.currentUser?.uid)
-        .collection('orders')
-        .doc(orderId)
-        .update({'orderStatus': 'Order Prepared'});
-  }
 
   @override
   void dispose() {
@@ -128,54 +97,6 @@ class _HomeScreenState extends State<HomeScreen>
                     : _buildSearchResults(),
               ),
             ),
-            if (_showFloatingContainer)
-              Positioned(
-                bottom: MediaQuery.of(context).padding.bottom + 10,
-                left: 10,
-                right: 10,
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(2, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Order Ready for Pickup',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: NColors.light,
-                          foregroundColor: NColors.primary,
-                        ),
-                        onPressed: () async {
-                          // Handle pickup action
-                          final orderId = await _getOrderIdForReadyOrder();
-                          if (orderId != null) {
-                            await _updateOrderStatus(orderId);
-                            setState(() {
-                              _showFloatingContainer = false;
-                            });
-                          }
-                        },
-                        child: const Text('Pickup', style: TextStyle(fontWeight: FontWeight.bold),),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
           ],
         ),
       ),
