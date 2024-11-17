@@ -7,12 +7,13 @@ class TrackingOrderPage extends StatelessWidget {
   final String globalOrderId;
   final Map<String, dynamic> order;
   final String orderId;
+  final String imageUrl;
 
   TrackingOrderPage({
     super.key,
     required this.globalOrderId,
     required this.order,
-    required this.orderId,
+    required this.orderId, required this.imageUrl,
   });
 
   final TimerController timerController = Get.put(TimerController());
@@ -44,9 +45,9 @@ class TrackingOrderPage extends StatelessWidget {
                   style: TextStyle(color: Colors.blue),
                 ),
                 Obx(() => Text(
-                  "Arriving in ${timerController.formattedDuration} min",
-                  style: const TextStyle(fontSize: 20),
-                )),
+                      "Arriving in ${timerController.formattedDuration} min",
+                      style: const TextStyle(fontSize: 20),
+                    )),
               ],
             ),
           ),
@@ -64,6 +65,7 @@ class TrackingOrderPage extends StatelessWidget {
                         globalOrderId: globalOrderId,
                         order: order,
                         orderId: orderId,
+                        imageUrl: imageUrl,
                       ),
                     ),
                   );
@@ -78,7 +80,6 @@ class TrackingOrderPage extends StatelessWidget {
               ),
             ),
           )
-
         ],
       ),
     );

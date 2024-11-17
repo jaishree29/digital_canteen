@@ -46,6 +46,7 @@ class _PopularState extends State<Popular> {
           }
 
           return NCards(
+            imageUrl: data['imageUrl'],
             foodId: foodId,
             title: data['title'] ?? 'Unknown',
             description: priceDescription,

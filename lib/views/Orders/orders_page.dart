@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../timer/order_tracking_page.dart';
 import '../../utils/constants/colors.dart';
-import '../../utils/constants/image_strings.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -17,7 +16,8 @@ class _OrdersPageState extends State<OrdersPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> updateVendorAndOrderStatus(String globalOrderId, String orderId) async {
+  Future<void> updateVendorAndOrderStatus(
+      String globalOrderId, String orderId) async {
     // Implement the function to update the vendor side data here.
     // This is a placeholder function, replace it with actual logic.
     await _firestore.collection('global_orders').doc(globalOrderId).update({
@@ -94,6 +94,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   final foodTitle = order['foodTitle'] ?? 'Unknown';
                   final selectedItems = order['selectedItems'] ?? 0;
                   final totalPrice = order['totalPrice'] ?? 0.0;
+                  final imageUrl = order['imageUrl'] ?? ''; // Fetch image URL
 
                   // Highlight order status based on its value
                   Color statusColor;
@@ -130,11 +131,13 @@ class _OrdersPageState extends State<OrdersPage> {
                                   'Hey, are you going to pick up your order?'),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () => Navigator.of(context).pop(false),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
                                   child: const Text('No'),
                                 ),
                                 TextButton(
-                                  onPressed: () => Navigator.of(context).pop(true),
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
                                   child: const Text('Yes'),
                                 ),
                               ],
@@ -144,7 +147,8 @@ class _OrdersPageState extends State<OrdersPage> {
 
                         if (isPickingUp == true) {
                           // Update vendor and change order status to "Order Prepared"
-                          await updateVendorAndOrderStatus(globalOrderId, orderId);
+                          await updateVendorAndOrderStatus(
+                              globalOrderId, orderId);
 
                           // Navigate to tracking page after confirmation
                           Navigator.push(
@@ -154,6 +158,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                 globalOrderId: globalOrderId,
                                 order: order,
                                 orderId: orderId,
+                                imageUrl: imageUrl,
                               ),
                             ),
                           );
@@ -166,7 +171,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             builder: (context) => TrackingOrderPage(
                               globalOrderId: globalOrderId,
                               order: order,
-                              orderId: orderId,
+                              orderId: orderId, imageUrl: imageUrl,
                             ),
                           ),
                         );
@@ -188,7 +193,7 @@ class _OrdersPageState extends State<OrdersPage> {
                               bottomLeft: Radius.circular(10),
                             ),
                             child: Image.network(
-                              NImages.menuImageOne,
+                              imageUrl, // Use the imageUrl parameter
                               width: 100,
                               height: 100,
                               fit: BoxFit.cover,
@@ -219,7 +224,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                   ),
                                 ],
                               ),
-                              trailing: Text('₹${totalPrice.toStringAsFixed(2)}'),
+                              trailing:
+                                  Text('₹${totalPrice.toStringAsFixed(2)}'),
                             ),
                           ),
                         ],

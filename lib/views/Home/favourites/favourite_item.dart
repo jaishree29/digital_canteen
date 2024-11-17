@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
 
 import '../../Orders/food_page.dart';
 
@@ -8,6 +7,7 @@ class FavouriteItem extends StatefulWidget {
   final String title;
   final String price;
   final String rating;
+  final String imageUrl; // Add imageUrl parameter
 
   const FavouriteItem({
     super.key,
@@ -15,6 +15,7 @@ class FavouriteItem extends StatefulWidget {
     required this.title,
     required this.price,
     required this.rating,
+    required this.imageUrl, // Add imageUrl parameter
   });
 
   @override
@@ -97,7 +98,7 @@ class _FavouriteItemState extends State<FavouriteItem> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  NImages.menuImageOne,
+                  widget.imageUrl, // Use the imageUrl parameter
                   fit: BoxFit.cover,
                 ),
               ),

@@ -8,7 +8,6 @@ import 'package:digital_canteen/widgets/image_carousel.dart';
 import 'package:digital_canteen/widgets/search_bar.dart';
 import 'package:digital_canteen/widgets/text_button.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,8 +26,6 @@ class _HomeScreenState extends State<HomeScreen>
   bool _lowToHigh = false;
   bool _shortTime = false;
   bool _longTime = false;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -235,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen>
             }
 
             return NCards(
+              imageUrl: data['imageUrl'],
               foodId: foodId,
               title: data['title'] ?? 'Unknown',
               description: priceDescription,
@@ -247,17 +245,17 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Future<String?> _getOrderIdForReadyOrder() async {
-    final snapshot = await _firestore
-        .collection('users')
-        .doc(_auth.currentUser?.uid)
-        .collection('orders')
-        .where('orderStatus', isEqualTo: 'Order is Ready')
-        .get();
+  // Future<String?> _getOrderIdForReadyOrder() async {
+  //   final snapshot = await _firestore
+  //       .collection('users')
+  //       .doc(_auth.currentUser?.uid)
+  //       .collection('orders')
+  //       .where('orderStatus', isEqualTo: 'Order is Ready')
+  //       .get();
 
-    if (snapshot.docs.isNotEmpty) {
-      return snapshot.docs.first.id;
-    }
-    return null;
-  }
+  //   if (snapshot.docs.isNotEmpty) {
+  //     return snapshot.docs.first.id;
+  //   }
+  //   return null;
+  // }
 }

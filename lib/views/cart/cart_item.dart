@@ -1,4 +1,3 @@
-import 'package:digital_canteen/utils/constants/image_strings.dart';
 import 'package:flutter/material.dart';
 
 class CartItem extends StatelessWidget {
@@ -7,6 +6,7 @@ class CartItem extends StatelessWidget {
   final double selectedPrice;
   final int selectedItems;
   final VoidCallback onDelete;
+  final String imageUrl; 
 
   const CartItem({
     super.key,
@@ -15,6 +15,7 @@ class CartItem extends StatelessWidget {
     required this.selectedPrice,
     required this.selectedItems,
     required this.onDelete,
+    required this.imageUrl, 
   });
 
   @override
@@ -45,7 +46,7 @@ class CartItem extends StatelessWidget {
                 bottomLeft: Radius.circular(20),
               ),
               child: Image.network(
-                NImages.menuImageOne,
+                imageUrl, 
                 height: 120,
                 width: 120,
                 fit: BoxFit.cover,
@@ -55,7 +56,8 @@ class CartItem extends StatelessWidget {
             // Details
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0),
+                padding:
+                    const EdgeInsets.only(top: 8.0, bottom: 8.0, right: 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

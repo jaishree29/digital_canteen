@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/cart/cart_items.dart';
-import 'package:flutter/material.dart';
-import 'package:digital_canteen/views/Orders/food_details.dart';
 import 'package:digital_canteen/views/Orders/bottom_bar.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
+import 'package:digital_canteen/views/Orders/food_details.dart';
+import 'package:flutter/material.dart';
+
+import '../../views/cart/cart_items.dart';
 
 class FoodPage extends StatefulWidget {
   final String foodId;
@@ -43,8 +43,10 @@ class _FoodPageState extends State<FoodPage> {
       final foodData = await _foodData;
       final data = foodData.data() as Map<String, dynamic>;
       final foodTitle = data['title'] ?? 'Unknown Item';
+      final imageUrl = data['imageUrl'];
 
       await _cartItems.addToCart(
+        imageUrl,
         widget.foodId,
         foodTitle,
         selectedPrice,
@@ -64,11 +66,28 @@ class _FoodPageState extends State<FoodPage> {
               top: 0,
               left: 0,
               right: 0,
-              child: Image.network(
-                NImages.menuImageOne,
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
+              child: FutureBuilder<DocumentSnapshot>(
+                future: _foodData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data == null) {
+                    return const Center(
+                      child: Text('No data found for this item.'),
+                    );
+                  }
+
+                  var data = snapshot.data!.data() as Map<String, dynamic>;
+                  final imageUrl = data['imageUrl'] ?? ''; // Fetch image URL
+
+                  return Image.network(
+                    imageUrl, // Use the imageUrl parameter
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ),
 

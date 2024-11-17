@@ -1,5 +1,4 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
 import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,15 +9,18 @@ class SeeOrderDetails extends StatelessWidget {
   final String globalOrderId;
   final Map<String, dynamic> order;
   final String orderId;
+  final String imageUrl; // Add imageUrl parameter
 
   // Create an instance of CancellationService
   final CancellationService cancellationService = CancellationService();
 
-  SeeOrderDetails(
-      {super.key,
-      required this.globalOrderId,
-      required this.order,
-      required this.orderId});
+  SeeOrderDetails({
+    super.key,
+    required this.globalOrderId,
+    required this.order,
+    required this.orderId,
+    required this.imageUrl, // Add imageUrl parameter
+  });
 
   // Function to show the cancel order confirmation dialog
   void _showCancelDialog(BuildContext context) {
@@ -83,19 +85,8 @@ class SeeOrderDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const Center(
-            //     child: Text(
-            //   'MyCanteen',
-            //   style: TextStyle(
-            //     color: NColors.primary,
-            //     fontSize: 25,
-            //     fontStyle: FontStyle.italic,
-            //     fontWeight: FontWeight.w500,
-            //   ),
-            // )),
             const SizedBox(height: 10),
             Container(
-              // height: 450,
               height: 550,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
@@ -117,7 +108,7 @@ class SeeOrderDetails extends StatelessWidget {
                         bottomRight: Radius.circular(15),
                       ),
                       child: Image.network(
-                        NImages.menuImageOne,
+                        imageUrl, // Use the imageUrl parameter
                         width: double.infinity,
                         height: 200,
                         fit: BoxFit.cover,
@@ -199,11 +190,12 @@ class SeeOrderDetails extends StatelessWidget {
                             ),
                             const Spacer(),
                             const Divider(),
-                            const SizedBox(height: 20,),
+                            const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Total Price:',
+                                const Text(
+                                  'Total Price:',
                                   style: TextStyle(
                                     color: NColors.primary,
                                     fontSize: 16,
@@ -211,7 +203,7 @@ class SeeOrderDetails extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                    '₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}',
+                                  '₹${order['totalPrice']?.toStringAsFixed(2) ?? '0.0'}',
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -219,10 +211,7 @@ class SeeOrderDetails extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
@@ -231,13 +220,12 @@ class SeeOrderDetails extends StatelessWidget {
                 ),
               ),
             ),
-          //  const SizedBox(height: 30),
-          //  const Spacer(),
             Expanded(
               child: Center(
                 child: NElevatedButton(
                   onPressed: () {
-                    _showCancelDialog(context); // Show the dialog on button press
+                    _showCancelDialog(
+                        context); // Show the dialog on button press
                   },
                   text: 'Cancel Order',
                 ),

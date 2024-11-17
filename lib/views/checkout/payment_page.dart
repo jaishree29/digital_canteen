@@ -76,9 +76,14 @@ class PaymentPage extends StatelessWidget {
 
                 await batch.commit();
 
+                // Fetch the image URL from the first cart item (assuming all items have the same image URL)
+                final String imageUrl =
+                    cartItems.isNotEmpty ? cartItems.first['imageUrl'] : '';
+
                 PaymentService paymentService = PaymentService([], totalPrice);
                 paymentService.openCheckout();
-                await paymentService.completePayment(cartItems, totalPrice);
+                await paymentService.completePayment(
+                    imageUrl, cartItems, totalPrice);
 
                 // // Show success message
                 // ScaffoldMessenger.of(context).showSnackBar(

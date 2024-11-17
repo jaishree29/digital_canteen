@@ -5,7 +5,7 @@ class CartItems {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> addToCart(String foodId, String foodTitle, double selectedPrice, int selectedItems) async {
+  Future<void> addToCart(String imageUrl, String foodId, String foodTitle, double selectedPrice, int selectedItems) async {
     final user = _auth.currentUser;
     if (user == null) {
       throw Exception('User not authenticated');
@@ -22,7 +22,8 @@ class CartItems {
 
     // Use the ID to add it as a field in the cart item
     await docRef.set({
-      'cartItemId': cartItemId, // Add the generated cart item ID as a field
+      'imageUrl': imageUrl,
+      'cartItemId': cartItemId, 
       'foodId': foodId,
       'foodTitle': foodTitle,
       'selectedPrice': selectedPrice,

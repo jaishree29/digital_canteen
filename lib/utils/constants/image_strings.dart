@@ -14,5 +14,5 @@ class NImages {
   ];
 
   //Menu Images
-  static const String menuImageOne = 'https://static.toiimg.com/photo/52532656.cms';
+  // static const String menuImageOne = 'https://static.toiimg.com/photo/52532656.cms';
 }

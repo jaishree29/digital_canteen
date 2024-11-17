@@ -52,7 +52,9 @@ class PaymentService {
     }
     try {
       List<QueryDocumentSnapshot> cartItems = await getCartItems(user.uid);
-      await completePayment(cartItems, totalPrice);
+      final String imageUrl =
+          cartItems.isNotEmpty ? cartItems.first['imageUrl'] : '';
+      await completePayment(imageUrl, cartItems, totalPrice);
     } catch (e) {
       print('Error handling payment success: $e');
     }
@@ -79,7 +81,7 @@ class PaymentService {
   }
 
   // Function that integrates payment completion with order creation
-  Future<void> completePayment(
+  Future<void> completePayment(String imageUrl,
       List<QueryDocumentSnapshot> cartItems, double totalPrice) async {
     final user = auth.currentUser; // Get the current user
     if (user == null) {
@@ -121,6 +123,7 @@ class PaymentService {
             .collection('orders')
             .doc(userOrderId)
             .set({
+          'imageUrl': imageUrl,
           'orderStatus': 'Pending', // Status of the order
           'timestamp': FieldValue.serverTimestamp(), // Order creation time
           'totalPrice': cartItemData['totalPrice'], // Total price of this item

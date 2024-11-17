@@ -79,6 +79,7 @@ class _CartPageState extends State<CartPage> {
                                   cartItem.data() as Map<String, dynamic>;
 
                               return CartItem(
+                                imageUrl: data['imageUrl'],
                                 foodId: data['foodId'],
                                 foodTitle: data['foodTitle'] ?? 'Unknown Item',
                                 selectedPrice: data['selectedPrice'],

@@ -1,5 +1,4 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
 import 'package:digital_canteen/views/Orders/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
@@ -12,6 +11,7 @@ class NCards extends StatelessWidget {
     this.isMenu = false,
     this.rating = '0',
     required this.foodId,
+    required this.imageUrl, // Add imageUrl parameter
   });
 
   final String title;
@@ -19,6 +19,7 @@ class NCards extends StatelessWidget {
   final bool? isMenu;
   final String rating;
   final String foodId;
+  final String imageUrl; // Add imageUrl parameter
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,8 @@ class NCards extends StatelessWidget {
             minChildSize: 1.0,
             expand: true,
             builder: (context, scrollController) {
-              return FoodPage(foodId: foodId,scrollController: scrollController);
+              return FoodPage(
+                  foodId: foodId, scrollController: scrollController);
             },
           );
         },
@@ -64,8 +66,7 @@ class NCards extends StatelessWidget {
             borderRadius: 15,
             width: isMenu == false ? 220 : 355,
             heightImage: 140,
-            imageProvider: const NetworkImage(NImages.menuImageOne),
-            // tags: [_tag('Category', () {}), _tag('Product', () {})],
+            imageProvider: NetworkImage(imageUrl), // Use the imageUrl parameter
             title: Text(
               title,
               style: TextStyle(

@@ -47,6 +47,7 @@ class _ReorderItemsState extends State<ReorderScreen> {
           var price = data['totalPrice'] as double;
 
           return ReorderItem(
+            imageUrl: data['imageUrl'],
             foodId: data['foodId'],
             title: data['foodTitle'] ?? 'Unknown',
             price: 'Paid: ₹$price',

@@ -46,6 +46,7 @@ class _RecentlyAddedState extends State<RecentlyAdded> {
           }
 
           return NCards(
+            imageUrl: data['imageUrl'],
             foodId: foodId,
             title: data['title'] ?? 'Unknown',
             description: priceDescription,

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:digital_canteen/utils/constants/image_strings.dart';
 import 'package:intl/intl.dart';
 
 import '../../Orders/food_page.dart';
@@ -10,6 +9,7 @@ class ReorderItem extends StatefulWidget {
   final String title;
   final String price;
   final Timestamp time;
+  final String imageUrl; 
 
   const ReorderItem({
     super.key,
@@ -17,6 +17,7 @@ class ReorderItem extends StatefulWidget {
     required this.title,
     required this.price,
     required this.time,
+    required this.imageUrl, 
   });
 
   @override
@@ -47,8 +48,7 @@ class _ReorderItemState extends State<ReorderItem> {
   @override
   Widget build(BuildContext context) {
     // Format the date and time
-    final formattedDate =
-        DateFormat('dd/MM/yyyy').format(widget.time.toDate());
+    final formattedDate = DateFormat('dd/MM/yyyy').format(widget.time.toDate());
 
     return GestureDetector(
       onTap: () => whenTapped(context, widget.foodId),
@@ -91,7 +91,7 @@ class _ReorderItemState extends State<ReorderItem> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    'On: $formattedDate', 
+                    'On: $formattedDate',
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
@@ -103,7 +103,7 @@ class _ReorderItemState extends State<ReorderItem> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Image.network(
-                  NImages.menuImageOne,
+                  widget.imageUrl, 
                   fit: BoxFit.cover,
                 ),
               ),

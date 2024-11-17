@@ -63,6 +63,7 @@ class _FavouriteItemsState extends State<FavouriteItems> {
           }
 
           return FavouriteItem(
+            imageUrl: data['imageUrl'],
             foodId: data['foodId'],
             title: data['title'] ?? 'Unknown',
             price: priceDescription,

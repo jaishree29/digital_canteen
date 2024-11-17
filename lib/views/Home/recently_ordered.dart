@@ -47,6 +47,7 @@ class _PopularState extends State<RecentlyOrdered> {
           var price = data['totalPrice'] as double;
 
           return NCards(
+            imageUrl: data['imageUrl'],
             foodId: foodId,
             title: data['foodTitle'] ?? 'Unknown',
             description: 'Paid: ₹$price',
