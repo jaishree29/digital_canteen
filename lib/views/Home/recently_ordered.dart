@@ -19,6 +19,8 @@ class _PopularState extends State<RecentlyOrdered> {
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('recently_ordered')
+          .orderBy('timestamp',
+              descending: true) 
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,21 +42,28 @@ class _PopularState extends State<RecentlyOrdered> {
           );
         }
 
-        List<NCards> foodCards = snapshot.data!.docs.map((doc) {
+        // Use a Set to filter out duplicates based on foodId
+        Set<String> uniqueFoodIds = {};
+        List<NCards> foodCards = [];
+
+        for (var doc in snapshot.data!.docs) {
           var data = doc.data() as Map<String, dynamic>;
           var foodId = data['foodId'];
 
-          var price = data['totalPrice'] as double;
+          if (!uniqueFoodIds.contains(foodId)) {
+            uniqueFoodIds.add(foodId);
+            var price = data['totalPrice'] as double;
 
-          return NCards(
-            imageUrl: data['imageUrl'],
-            foodId: foodId,
-            title: data['foodTitle'] ?? 'Unknown',
-            description: 'Paid: ₹$price',
-            rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',
-            isMenu: false,
-          );
-        }).toList();
+            foodCards.add(NCards(
+              imageUrl: data['imageUrl'],
+              foodId: foodId,
+              title: data['foodTitle'] ?? 'Unknown',
+              description: 'Paid: ₹$price',
+              rating: '⭐ ${data['rating']?.toString() ?? '0.0'}',
+              isMenu: false,
+            ));
+          }
+        }
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,

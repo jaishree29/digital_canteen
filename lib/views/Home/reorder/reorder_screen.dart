@@ -19,6 +19,8 @@ class ReorderScreen extends StatefulWidget {
         .collection('users')
         .doc(user.uid)
         .collection('recently_ordered')
+        .orderBy('timestamp',
+            descending: true) // Order by most recent timestamp
         .snapshots();
   }
 
@@ -42,18 +44,27 @@ class _ReorderItemsState extends State<ReorderScreen> {
           );
         }
 
-        List<ReorderItem> favouriteItems = snapshot.data!.docs.map((doc) {
-          var data = doc.data() as Map<String, dynamic>;
-          var price = data['totalPrice'] as double;
+        // Use a Set to filter out duplicates based on foodId
+        Set<String> uniqueFoodIds = {};
+        List<ReorderItem> favouriteItems = [];
 
-          return ReorderItem(
-            imageUrl: data['imageUrl'],
-            foodId: data['foodId'],
-            title: data['foodTitle'] ?? 'Unknown',
-            price: 'Paid: ₹$price',
-            time: data['timestamp'],
-          );
-        }).toList();
+        for (var doc in snapshot.data!.docs) {
+          var data = doc.data() as Map<String, dynamic>;
+          var foodId = data['foodId'];
+
+          if (!uniqueFoodIds.contains(foodId)) {
+            uniqueFoodIds.add(foodId);
+            var price = data['totalPrice'] as double;
+
+            favouriteItems.add(ReorderItem(
+              imageUrl: data['imageUrl'],
+              foodId: foodId,
+              title: data['foodTitle'] ?? 'Unknown',
+              price: 'Paid: ₹$price',
+              time: data['timestamp'],
+            ));
+          }
+        }
 
         return ListView(
           children: favouriteItems,

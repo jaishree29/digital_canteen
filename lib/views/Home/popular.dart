@@ -13,7 +13,7 @@ class _PopularState extends State<Popular> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance.collection('menu').get(),
+      future: FirebaseFirestore.instance.collection('menu').where('popular', isEqualTo: true).get(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

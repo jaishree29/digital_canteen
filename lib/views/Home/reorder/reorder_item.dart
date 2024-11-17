@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../Orders/food_page.dart';
+import '../../Orders/food/food_page.dart';
 
 class ReorderItem extends StatefulWidget {
   final String foodId;

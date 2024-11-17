@@ -1,5 +1,5 @@
 import 'package:digital_canteen/utils/constants/colors.dart';
-import 'package:digital_canteen/views/Orders/food_page.dart';
+import 'package:digital_canteen/views/Orders/food/food_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
 

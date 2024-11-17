@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:digital_canteen/views/Orders/bottom_bar.dart';
-import 'package:digital_canteen/views/Orders/food_details.dart';
+import 'package:digital_canteen/views/Orders/food/bottom_bar.dart';
+import 'package:digital_canteen/views/Orders/food/food_details.dart';
 import 'package:flutter/material.dart';
 
-import '../../views/cart/cart_items.dart';
+import '../../cart/cart_items.dart';
 
 class FoodPage extends StatefulWidget {
   final String foodId;

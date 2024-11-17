@@ -1,8 +1,8 @@
-import 'package:digital_canteen/views/Orders/quantity_selector.dart';
+import 'package:digital_canteen/views/Orders/food/quantity_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/favorites_controller.dart';
+import '../../../controllers/favorites_controller.dart';
 
 class FoodDetails extends StatefulWidget {
   final String foodId;
