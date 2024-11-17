@@ -21,7 +21,7 @@ class TrackingOrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tracking Order"),
+        title: const Text("Tracking Order"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -29,28 +29,28 @@ class TrackingOrderPage extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                SizedBox(height: 100),
+                const SizedBox(height: 100),
                 Image.asset(
                   'assets/images/order_track.png',
                   height: 150,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "Tracking Order",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                Text(
+                const Text(
                   "Estimated Time",
                   style: TextStyle(color: Colors.blue),
                 ),
                 Obx(() => Text(
                   "Arriving in ${timerController.formattedDuration} min",
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 )),
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
@@ -71,7 +71,7 @@ class TrackingOrderPage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                 ),
-                child: Text(
+                child: const Text(
                   "ORDER DETAILS",
                   style: TextStyle(color: Colors.white),
                 ),

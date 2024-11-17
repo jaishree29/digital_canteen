@@ -9,8 +9,8 @@ class AboutUsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("About Us"),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,7 +20,7 @@ class AboutUsPage extends StatelessWidget {
               "We aim to make food ordering and management easier for students and vendors, saving time and making campus dining more convenient.",
               icon: Icons.fastfood,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "Features",
               subtitle:
@@ -30,7 +30,7 @@ class AboutUsPage extends StatelessWidget {
                   "• Real-time notifications for order updates",
               icon: Icons.featured_play_list,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "How It Works",
               subtitle:
@@ -40,21 +40,21 @@ class AboutUsPage extends StatelessWidget {
                   "4. Pay directly in-app and enjoy hassle-free dining",
               icon: Icons.work_outline,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "Our Team",
               subtitle:
               "Digital Canteen was created by a group of students passionate about solving everyday problems. Our goal is to make campus dining more accessible and enjoyable.",
               icon: Icons.group,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "Contact Us",
               subtitle:
               "Have questions? Reach out to us at support@digitalcanteen.com or find us on Instagram @digital_canteen_app.",
               icon: Icons.contact_mail,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "Frequently Asked Questions",
               subtitle:
@@ -64,7 +64,7 @@ class AboutUsPage extends StatelessWidget {
                   "We’re here to help you with any questions or concerns you may have!",
               icon: Icons.question_answer,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AboutCard(
               title: "Feedback and Suggestions",
               subtitle:
@@ -85,12 +85,12 @@ class AboutCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const AboutCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

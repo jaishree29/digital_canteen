@@ -88,7 +88,7 @@ class CheckoutPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PaymentPage(totalPrice: totalPrice,), // Navigate to OrderPage
+                          builder: (context) => PaymentPage(totalPrice: totalPrice,), 
                         ),
                       );
                     },

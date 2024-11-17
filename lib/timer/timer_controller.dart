@@ -12,7 +12,7 @@ class TimerController extends GetxController {
   }
 
   void startTimer() {
-    _timer ??= Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
       if (countdownDuration.value <= 0) {
         _timer?.cancel();
       } else {

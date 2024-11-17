@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:hive/hive.dart';
 
 class EditProfile extends StatefulWidget {
-  EditProfile({Key? key}) : super(key: key);
+  const EditProfile({super.key});
 
   @override
   _EditProfileState createState() => _EditProfileState();
