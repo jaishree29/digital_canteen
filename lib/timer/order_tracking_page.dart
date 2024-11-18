@@ -1,4 +1,5 @@
 import 'package:digital_canteen/views/Orders/seeorderdetails_page.dart';
+import 'package:digital_canteen/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'timer_controller.dart'; // Import the TimerController
@@ -13,7 +14,8 @@ class TrackingOrderPage extends StatelessWidget {
     super.key,
     required this.globalOrderId,
     required this.order,
-    required this.orderId, required this.imageUrl,
+    required this.orderId,
+    required this.imageUrl,
   });
 
   final TimerController timerController = Get.put(TimerController());
@@ -22,7 +24,18 @@ class TrackingOrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tracking Order"),
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: const Row(
+            children: [
+              Icon(Icons.arrow_back_ios_rounded, color: Colors.grey, size: 18,),
+              SizedBox(width: 10,),
+              Text("Go back", style: TextStyle(color: Colors.grey, fontSize: 18),),
+            ],
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -30,10 +43,10 @@ class TrackingOrderPage extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                const SizedBox(height: 100),
+                // const SizedBox(height: 20),
                 Image.asset(
-                  'assets/images/order_track.png',
-                  height: 150,
+                  'assets/images/delivery.gif',
+                  // height: 150,
                 ),
                 const SizedBox(height: 20),
                 const Text(
@@ -52,32 +65,25 @@ class TrackingOrderPage extends StatelessWidget {
             ),
           ),
           const Spacer(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: double.infinity, // Full width
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SeeOrderDetails(
-                        globalOrderId: globalOrderId,
-                        order: order,
-                        orderId: orderId,
-                        imageUrl: imageUrl,
-                      ),
+            child: NElevatedButton(
+              borderRadius: 15,
+              text: 'ORDER DETAILS',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SeeOrderDetails(
+                      globalOrderId: globalOrderId,
+                      order: order,
+                      orderId: orderId,
+                      imageUrl: imageUrl,
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                ),
-                child: const Text(
-                  "ORDER DETAILS",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           )
         ],
